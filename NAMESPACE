@@ -1,0 +1,42 @@
+useDynLib(treesitR, .registration = TRUE)
+
+export(
+    ts_parser_new,
+    ts_parser_set_language,
+    ts_parse,
+    ts_language_r,
+    ts_tree_root_node,
+    ts_tree_text,
+    ts_node_type,
+    ts_node_text,
+    ts_node_is_named,
+    ts_node_is_null,
+    ts_node_start_point,
+    ts_node_end_point,
+    ts_node_start_byte,
+    ts_node_end_byte,
+    ts_node_parent,
+    ts_node_child,
+    ts_node_child_count,
+    ts_node_named_child,
+    ts_node_named_child_count,
+    ts_node_children,
+    ts_node_next_sibling,
+    ts_node_prev_sibling,
+    ts_node_next_named_sibling,
+    ts_node_prev_named_sibling,
+    ts_node_child_by_field,
+    ts_node_sexpr,
+    ts_cursor_new,
+    ts_cursor_node,
+    ts_cursor_goto_first_child,
+    ts_cursor_goto_next_sibling,
+    ts_cursor_goto_parent,
+    ts_cursor_field_name,
+    ts_cursor_depth
+)
+
+S3method(print, ts_tree)
+S3method(print, ts_node)
+S3method(print, ts_cursor)
+S3method(as.data.frame, ts_node)

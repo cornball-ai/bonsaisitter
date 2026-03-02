@@ -1,0 +1,7 @@
+src/*.o
+src/*.so
+src/*.dll
+src/tree-sitter/lib/src/*.o
+src/tree-sitter-r/src/*.o
+*.Rcheck
+*.tar.gz

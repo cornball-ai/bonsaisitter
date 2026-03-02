@@ -1,0 +1,20 @@
+Package: treesitR
+Type: Package
+Title: Tree-Sitter Bindings for R
+Version: 0.1.0
+Authors@R: c(
+    person("Troy", "Hernandez", role = c("aut", "cre"),
+           email = "troy@cornball.ai",
+           comment = c(ORCID = "0009-0005-4248-604X")),
+    person("Max", "Brunsfeld", role = "cph",
+           comment = "tree-sitter C library"),
+    person("Davis", "Vaughan", role = "cph",
+           comment = "tree-sitter-r grammar"))
+Description: Provides R bindings to the tree-sitter parsing library with a
+    bundled R language grammar. Enables fast, incremental parsing of R source
+    code into concrete syntax trees. Zero R package dependencies.
+License: MIT + file LICENSE
+URL: https://github.com/cornball-ai/treesitR
+BugReports: https://github.com/cornball-ai/treesitR/issues
+NeedsCompilation: yes
+Suggests: tinytest
