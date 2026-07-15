@@ -1,4 +1,4 @@
-library(treesitR)
+library(bonsaisitter)
 
 parser <- ts_parser_new()
 ts_parser_set_language(parser, ts_language_r())

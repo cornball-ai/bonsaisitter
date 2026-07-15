@@ -1,7 +1,7 @@
 .onLoad <- function(libname, pkgname) {
-    library.dynam("treesitR", pkgname, libname)
+    library.dynam("bonsaisitter", pkgname, libname)
 }
 
 .onUnload <- function(libpath) {
-    library.dynam.unload("treesitR", libpath)
+    library.dynam.unload("bonsaisitter", libpath)
 }

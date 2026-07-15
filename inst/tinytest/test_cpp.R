@@ -1,4 +1,4 @@
-library(treesitR)
+library(bonsaisitter)
 
 # -- C++ language grammar --
 parser <- ts_parser_new()

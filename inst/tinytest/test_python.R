@@ -1,4 +1,4 @@
-library(treesitR)
+library(bonsaisitter)
 
 # -- Python language grammar --
 parser <- ts_parser_new()
