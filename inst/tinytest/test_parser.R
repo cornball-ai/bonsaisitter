@@ -1,4 +1,4 @@
-library(treesitR)
+library(bonsaisitter)
 
 # -- Parser creation --
 parser <- ts_parser_new()

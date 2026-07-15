@@ -1,5 +1,7 @@
 # tinyrox says don't edit this manually, but it can't stop you!
 
+export(audit_translation)
+export(literals_and_calls)
 export(ts_cursor_depth)
 export(ts_cursor_field_name)
 export(ts_cursor_goto_first_child)
@@ -41,4 +43,4 @@ S3method(print,ts_cursor)
 S3method(print,ts_node)
 S3method(print,ts_tree)
 
-useDynLib(treesitR, .registration = TRUE)
+useDynLib(bonsaisitter, .registration = TRUE)
