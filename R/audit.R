@@ -27,11 +27,11 @@ literals_and_calls <- function(code, lang = c("r", "python", "cpp")) {
   walk <- function(n) {
     ty <- ts_node_type(n)
     if (ty %in% c("float", "integer", "complex")) {
-      nums <- c(nums, ts_node_text(n))
+      nums <<- c(nums, ts_node_text(n))
     }
     if (ty == "call") {
       fn <- ts_node_child_by_field(n, "function")
-      if (!ts_node_is_null(fn)) calls <- c(calls, ts_node_text(fn))
+      if (!ts_node_is_null(fn)) calls <<- c(calls, ts_node_text(fn))
     }
     for (ch in ts_node_children(n)) walk(ch)
   }
