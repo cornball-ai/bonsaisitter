@@ -44,6 +44,12 @@ new_parser <- function(language, timeout = 0, included_ranges = list()) {
 #' @param language A `tree_sitter_language`, e.g. from a grammar package like
 #'   `treesitter.r::language()`.
 #' @return A `tree_sitter_parser`.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   p <- parser(treesitter.r::language())
+#'   tree <- parser_parse(p, "x <- f(1, 2)")
+#'   node_type(tree_root_node(tree))
+#' }
 #' @export
 parser <- function(language) {
     check_language(language)
@@ -64,7 +70,7 @@ parser <- function(language) {
 #' @param timeout A single whole number of microseconds.
 #' @param included_ranges A list of `tree_sitter_range` objects.
 #' @return A new `tree_sitter_parser`.
-#' @name parser-adjust
+#' @rdname parser-adjust
 #' @export
 parser_set_language <- function(x, language) {
     check_parser(x)
@@ -105,7 +111,7 @@ parser_set_included_ranges <- function(x, included_ranges) {
 #' @param start_point,old_end_point,new_end_point Edit `tree_sitter_point`s.
 #' @param ... Unused.
 #' @return A `tree_sitter_tree`.
-#' @name parser-parse
+#' @rdname parser-parse
 #' @export
 parser_parse <- function(x, text, ...) {
     check_parser(x)

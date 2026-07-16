@@ -37,6 +37,11 @@ is_node <- function(x) {
 #'
 #' @param x A `tree_sitter_node`.
 #' @return A single string.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   node <- tree_root_node(text_parse("x + 1", treesitter.r::language()))
+#'   node_type(node)
+#' }
 #' @export
 node_type <- function(x) {
     check_node(x)
@@ -67,7 +72,7 @@ node_is_named <- function(x) {
 #'
 #' @param x A `tree_sitter_node`.
 #' @return A `tree_sitter_point`.
-#' @name node-points
+#' @rdname node-points
 #' @export
 node_start_point <- function(x) {
     check_node(x)
@@ -87,7 +92,7 @@ node_end_point <- function(x) {
 #'
 #' @param x A `tree_sitter_node`.
 #' @return A single double (0-indexed).
-#' @name node-bytes
+#' @rdname node-bytes
 #' @export
 node_start_byte <- function(x) {
     check_node(x)
@@ -116,7 +121,7 @@ node_range <- function(x) {
 #'
 #' @param x A `tree_sitter_node`.
 #' @return A single double.
-#' @name node-child-count
+#' @rdname node-child-count
 #' @export
 node_child_count <- function(x) {
     check_node(x)
@@ -135,7 +140,7 @@ node_named_child_count <- function(x) {
 #' @param x A `tree_sitter_node`.
 #' @param i A 1-indexed child position.
 #' @return A `tree_sitter_node`, or `NULL`.
-#' @name node-child
+#' @rdname node-child
 #' @export
 node_child <- function(x, i) {
     check_node(x)
@@ -155,7 +160,7 @@ node_named_child <- function(x, i) {
 #'
 #' @param x A `tree_sitter_node`.
 #' @return A list of `tree_sitter_node`s.
-#' @name node-children
+#' @rdname node-children
 #' @export
 node_children <- function(x) {
     check_node(x)
@@ -187,7 +192,7 @@ node_child_by_field_name <- function(x, name) {
 #'
 #' @param x A `tree_sitter_node`.
 #' @return A `tree_sitter_node`, or `NULL`.
-#' @name node-navigation
+#' @rdname node-navigation
 #' @export
 node_parent <- function(x) {
     check_node(x)

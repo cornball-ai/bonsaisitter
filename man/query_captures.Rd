@@ -17,3 +17,11 @@ A list with `name` (character vector of capture names) and `node`
 \description{
 Run a query and collect its captures
 }
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  lang <- treesitter.r::language()
+  node <- tree_root_node(text_parse("f(1); g(2)", lang))
+  q <- query(lang, "(call function: (identifier) @fn)")
+  vapply(query_captures(q, node)$node, node_text, character(1))
+}
+}

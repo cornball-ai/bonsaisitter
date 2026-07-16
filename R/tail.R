@@ -7,7 +7,7 @@
 #'
 #' @param x A `tree_sitter_node`.
 #' @return A single double.
-#' @name node-symbols
+#' @rdname node-symbols
 #' @export
 node_symbol <- function(x) {
     check_node(x)
@@ -53,7 +53,7 @@ node_child_by_field_id <- function(x, id) {
 #' @param x A `tree_sitter_node`.
 #' @param i A 1-indexed child position.
 #' @return A single string, or `NA` if the child has no field.
-#' @name node-field-name
+#' @rdname node-field-name
 #' @export
 node_field_name_for_child <- function(x, i) {
     check_node(x)
@@ -75,7 +75,7 @@ node_field_name_for_named_child <- function(x, i) {
 #' @param byte,start,end 0-indexed byte offsets.
 #' @param start_point,end_point `tree_sitter_point` objects.
 #' @return A `tree_sitter_node`, or `NULL`.
-#' @name node-locate
+#' @rdname node-locate
 #' @export
 node_first_child_for_byte <- function(x, byte) {
     check_node(x)
@@ -137,7 +137,7 @@ node_named_descendant_for_point_range <- function(x, start_point, end_point) {
 #' @param state A parse state id.
 #' @param symbol A symbol id.
 #' @return A single double.
-#' @name language-states
+#' @rdname language-states
 #' @export
 language_state_count <- function(x) {
     check_language(x)
@@ -159,7 +159,7 @@ language_next_state <- function(x, state, symbol) {
 #' @param x A `tree_sitter_query`.
 #' @param i A 1-indexed pattern position.
 #' @return A single double (0-indexed byte).
-#' @name query-bytes
+#' @rdname query-bytes
 #' @export
 query_start_byte_for_pattern <- function(x, i) {
     check_query(x)

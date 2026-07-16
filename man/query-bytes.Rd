@@ -1,10 +1,10 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{query-bytes}
-\alias{query-bytes}
+\alias{query_start_byte_for_pattern}
 \alias{query_end_byte_for_pattern}
 \title{Query byte ranges per pattern (1-indexed pattern)}
 \usage{
-query-bytes(x, i)
+query_start_byte_for_pattern(x, i)
 
 query_end_byte_for_pattern(x, i)
 }

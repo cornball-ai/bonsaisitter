@@ -1,10 +1,10 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{node-child}
-\alias{node-child}
+\alias{node_child}
 \alias{node_named_child}
 \title{Access a child by index (1-indexed)}
 \usage{
-node-child(x, i)
+node_child(x, i)
 
 node_named_child(x, i)
 }

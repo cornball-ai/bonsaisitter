@@ -15,7 +15,13 @@
 #' @param x A `tree_sitter_tree`.
 #' @param node A `tree_sitter_node`.
 #' @return A `tree_sitter_tree_cursor`.
-#' @name tree-cursor
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   cursor <- tree_walk(text_parse("x <- 1", treesitter.r::language()))
+#'   cursor$goto_first_child()
+#'   node_type(cursor$node())
+#' }
+#' @rdname tree-cursor
 #' @export
 tree_walk <- function(x) {
     check_tree(x)

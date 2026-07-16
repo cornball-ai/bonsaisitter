@@ -6,6 +6,11 @@
 #' @param x A single string to parse.
 #' @param language A `tree_sitter_language`.
 #' @return A `tree_sitter_tree`.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   tree <- text_parse("f <- function(x) x + 1", treesitter.r::language())
+#'   node_type(tree_root_node(tree))
+#' }
 #' @export
 text_parse <- function(x, language) {
     check_string(x)

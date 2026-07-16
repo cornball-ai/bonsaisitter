@@ -14,3 +14,9 @@ A `tree_sitter_node`.
 \description{
 Retrieve the root node of a tree
 }
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  tree <- text_parse("x <- 1", treesitter.r::language())
+  node_type(tree_root_node(tree))
+}
+}

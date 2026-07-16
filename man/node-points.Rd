@@ -1,10 +1,10 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{node-points}
-\alias{node-points}
+\alias{node_start_point}
 \alias{node_end_point}
 \title{A node's start / end point}
 \usage{
-node-points(x)
+node_start_point(x)
 
 node_end_point(x)
 }

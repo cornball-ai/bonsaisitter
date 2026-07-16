@@ -10,6 +10,11 @@ new_tree <- function(pointer, text, language) {
 #'
 #' @param x A `tree_sitter_tree`.
 #' @return A `tree_sitter_node`.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   tree <- text_parse("x <- 1", treesitter.r::language())
+#'   node_type(tree_root_node(tree))
+#' }
 #' @export
 tree_root_node <- function(x) {
     check_tree(x)
@@ -25,7 +30,7 @@ tree_root_node <- function(x) {
 #'
 #' @param x A `tree_sitter_tree`.
 #' @return `tree_text()` a string; `tree_language()` a language.
-#' @name tree-accessors
+#' @rdname tree-accessors
 #' @export
 tree_text <- function(x) {
     check_tree(x)

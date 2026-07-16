@@ -21,7 +21,7 @@ new_range <- function(start_byte, start_point, end_byte, end_point) {
 #' @param start_point,end_point `tree_sitter_point` objects.
 #' @param x A `tree_sitter_range`.
 #' @return `range()` a range; accessors their component; `is_range()` a logical.
-#' @name ranges
+#' @rdname ranges
 #' @export
 range <- function(start_byte, start_point, end_byte, end_point) {
     start_byte <- as.double(start_byte)

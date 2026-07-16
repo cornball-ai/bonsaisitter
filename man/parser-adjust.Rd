@@ -1,11 +1,11 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{parser-adjust}
-\alias{parser-adjust}
+\alias{parser_set_language}
 \alias{parser_set_timeout}
 \alias{parser_set_included_ranges}
 \title{Adjust a parser}
 \usage{
-parser-adjust(x, language)
+parser_set_language(x, language)
 
 parser_set_timeout(x, timeout)
 

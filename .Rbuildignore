@@ -1,3 +1,8 @@
 ^CLAUDE\.md$
 ^LICENSE\.md$
 ^\.github$
+^\.claude$
+^tasks$
+^\.gitignore$
+\.o$
+\.(so|dll)$

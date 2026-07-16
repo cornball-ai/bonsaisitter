@@ -1,11 +1,11 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{language-fields}
-\alias{language-fields}
+\alias{language_field_count}
 \alias{language_field_name_for_id}
 \alias{language_field_id_for_name}
 \title{Language fields}
 \usage{
-language-fields(x)
+language_field_count(x)
 
 language_field_name_for_id(x, id)
 

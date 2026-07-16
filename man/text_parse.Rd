@@ -17,3 +17,9 @@ A `tree_sitter_tree`.
 `text_parse()` is a convenience wrapper that builds a parser for `language`
 and parses `x` with it, returning the tree directly.
 }
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  tree <- text_parse("f <- function(x) x + 1", treesitter.r::language())
+  node_type(tree_root_node(tree))
+}
+}

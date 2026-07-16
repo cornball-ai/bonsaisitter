@@ -1,11 +1,11 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{query-counts}
-\alias{query-counts}
+\alias{query_pattern_count}
 \alias{query_capture_count}
 \alias{query_string_count}
 \title{Query counts}
 \usage{
-query-counts(x)
+query_pattern_count(x)
 
 query_capture_count(x)
 

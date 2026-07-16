@@ -1,10 +1,10 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{node-bytes}
-\alias{node-bytes}
+\alias{node_start_byte}
 \alias{node_end_byte}
 \title{A node's start / end byte}
 \usage{
-node-bytes(x)
+node_start_byte(x)
 
 node_end_byte(x)
 }
