@@ -1,7 +1,9 @@
 library(bonsaisitter)
 
+if (!requireNamespace("treesitter.python", quietly = TRUE)) exit_file("treesitter.python not installed")
+
 # -- Python language grammar --
-lang <- language_python()
+lang <- treesitter.python::language()
 expect_true(inherits(lang, "tree_sitter_language"))
 parser <- parser(lang)
 

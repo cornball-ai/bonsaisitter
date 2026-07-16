@@ -34,7 +34,3 @@ Numeric literals are normalized by default so \code{4.0}, \code{4L}, and
 \code{4} compare equal.
 
 }
-\examples{
-audit_translation("clamp(x, 1e-10); y * 8", "pmax(x, 1e-10); y * 8")
-
-}

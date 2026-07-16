@@ -31,12 +31,23 @@ All work is in the R layer and C return shapes. Decisions: core first, kill the
 - [ ] TreeCursor via environment-of-closures (cur$goto_first_child()), no R6
 - [ ] tree_walk, node_walk
 
-## Known follow-ups
-- [ ] Bundled tree-sitter-r grammar lags posit's treesitter.r 1.3.0: posit emits
-      named `string_open`/`string_close` nodes for quotes, bundled emits anonymous
-      `'`. 2/41 nodes differ on a string literal. Re-vendor the grammar to match,
-      so bonsaisitter's *own* grammar is byte-identical too (consuming posit's
-      grammar object is already byte-identical).
+## Runtime-only refactor -- done
+- [x] Remove bundled grammars (tree-sitter-r/python/cpp) from src/; runtime only
+- [x] Publish outboard grammar packages: treesitter.python (ABI 15),
+      treesitter.cpp (ABI 14), mirroring the treesitter.r pattern (~/treesitter.*)
+- [x] language.R keeps only consumer helpers (is_language, language_name, ...);
+      no grammar construction. audit.R looks up grammars via requireNamespace.
+- [x] Rely on treesitter.r now; grammar drift is moot (canonical grammar).
+      treesitter.c once its Imports->Suggests is fixed. Tests skip when a grammar
+      package is absent.
+- [x] DESCRIPTION: runtime-only framing, zero hard deps; Suggests treesitter.r +
+      treesitter (both on CRAN). treesitter.python/cpp NOT in Suggests (unpublished;
+      reached via requireNamespace) per the CRAN-unpublished-Suggests rule.
+
+## Publish follow-ups (outward-facing, needs go-ahead)
+- [ ] gh repo create cornball-ai/treesitter.python and .cpp; push
+- [ ] Add man/ (roxygen) + README + CI to the grammar packages before CRAN
+- [ ] Only add treesitter.python/cpp to bonsaisitter Suggests once they are on CRAN
 
 ## Phase 4 (introspection tail)
 - [ ] language_symbol_*/field_*/state*, node_descendant_*/grammar_*/has_error/...

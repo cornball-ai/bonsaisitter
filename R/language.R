@@ -1,40 +1,6 @@
-# tree_sitter_language = list(pointer, abi, name). Matches treesitter so the
-# same objects flow between the two packages and the posit grammar packages.
-
-new_language <- function(pointer, abi, name) {
-    out <- list(pointer = pointer, abi = abi, name = name)
-    class(out) <- "tree_sitter_language"
-    out
-}
-
-language_from_pointer <- function(pointer, name) {
-    new_language(pointer, .Call(c_ts_language_version, pointer), name)
-}
-
-#' Bundled tree-sitter grammars
-#'
-#' @description
-#' `language_r()`, `language_python()`, and `language_cpp()` return the bundled
-#' grammar as a `tree_sitter_language` object, for use with [parser()].
-#'
-#' @return A `tree_sitter_language`.
-#' @name languages
-#' @export
-language_r <- function() {
-    language_from_pointer(.Call(c_ts_language_r), "r")
-}
-
-#' @rdname languages
-#' @export
-language_python <- function() {
-    language_from_pointer(.Call(c_ts_language_python), "python")
-}
-
-#' @rdname languages
-#' @export
-language_cpp <- function() {
-    language_from_pointer(.Call(c_ts_language_cpp), "cpp")
-}
+# tree_sitter_language objects come from grammar packages (treesitter.r,
+# treesitter.python, treesitter.cpp, treesitter.c, ...). bonsaisitter is the
+# runtime: it consumes languages, it does not bundle or construct grammars.
 
 #' The name of a language
 #'

@@ -1,7 +1,9 @@
 library(bonsaisitter)
 
+if (!requireNamespace("treesitter.cpp", quietly = TRUE)) exit_file("treesitter.cpp not installed")
+
 # -- C++ language grammar --
-lang <- language_cpp()
+lang <- treesitter.cpp::language()
 expect_true(inherits(lang, "tree_sitter_language"))
 parser <- parser(lang)
 

@@ -18,9 +18,7 @@ A list with \code{literals} and \code{calls} (character vectors,
 \description{
 Parses \code{code} with tree-sitter and walks the AST collecting every
 numeric literal (integer / float) and the callee name of every call. The
-building block for \code{\link{audit_translation}}.
-}
-\examples{
-literals_and_calls("f(1L, 2.5) + g(3)")
-
+building block for \code{\link{audit_translation}}. Requires the grammar
+package for \code{lang} (\code{treesitter.r}, \code{treesitter.python}, or
+\code{treesitter.cpp}) to be installed.
 }

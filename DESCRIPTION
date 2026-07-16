@@ -9,12 +9,14 @@ Authors@R: c(
     person("Max", "Brunsfeld", role = "cph",
            comment = "tree-sitter C library"),
     person("Davis", "Vaughan", role = "cph",
-           comment = "tree-sitter-r grammar"))
-Description: Provides R bindings to the tree-sitter parsing library with a
-    bundled R language grammar. Enables fast, incremental parsing of R source
-    code into concrete syntax trees. Zero R package dependencies.
+           comment = "treesitter package, whose API this mirrors"))
+Description: A runtime for the tree-sitter parsing library that mirrors the
+    'treesitter' package API, so it can serve as a drop-in replacement.
+    Parses source code into concrete syntax trees for fast, incremental
+    analysis. Grammars come from separate packages (such as 'treesitter.r'),
+    so the runtime itself carries zero hard dependencies.
 License: MIT + file LICENSE
 URL: https://github.com/cornball-ai/bonsaisitter
 BugReports: https://github.com/cornball-ai/bonsaisitter/issues
 NeedsCompilation: yes
-Suggests: tinytest
+Suggests: tinytest, treesitter, treesitter.r

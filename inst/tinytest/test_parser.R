@@ -1,7 +1,9 @@
 library(bonsaisitter)
 
+if (!requireNamespace("treesitter.r", quietly = TRUE)) exit_file("treesitter.r not installed")
+
 # -- Language + parser --
-lang <- language_r()
+lang <- treesitter.r::language()
 expect_true(inherits(lang, "tree_sitter_language"))
 expect_equal(lang$abi, 14L)
 

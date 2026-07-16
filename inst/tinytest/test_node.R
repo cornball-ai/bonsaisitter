@@ -1,6 +1,8 @@
 library(bonsaisitter)
 
-parser <- parser(language_r())
+if (!requireNamespace("treesitter.r", quietly = TRUE)) exit_file("treesitter.r not installed")
+
+parser <- parser(treesitter.r::language())
 tree <- parser_parse(parser, "f <- function(x, y = 1) {\n  x + y\n}\n")
 root <- tree_root_node(tree)
 
