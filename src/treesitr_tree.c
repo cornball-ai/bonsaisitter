@@ -16,10 +16,9 @@ SEXP c_ts_tree_register_finalizer(SEXP tree_ptr) {
     return R_NilValue;
 }
 
-/* Returns a ts_node: raw vector of sizeof(TSNode) bytes,
-   with attr "tree" pointing to the tree list for GC protection */
-SEXP c_ts_tree_root_node(SEXP tree_obj) {
-    SEXP tree_ptr = VECTOR_ELT(tree_obj, 0);
+/* Takes the tree's external pointer, returns the root node as a bare raw
+   (sizeof(TSNode) bytes). The R layer wraps it into list(raw, tree). */
+SEXP c_ts_tree_root_node(SEXP tree_ptr) {
     TSTree *tree = (TSTree *)R_ExternalPtrAddr(tree_ptr);
     if (!tree) Rf_error("tree has been freed");
 
@@ -27,8 +26,6 @@ SEXP c_ts_tree_root_node(SEXP tree_obj) {
 
     SEXP raw = PROTECT(Rf_allocVector(RAWSXP, sizeof(TSNode)));
     memcpy(RAW(raw), &root, sizeof(TSNode));
-    Rf_setAttrib(raw, Rf_install("tree"), tree_obj);
-    Rf_setAttrib(raw, R_ClassSymbol, Rf_mkString("ts_node"));
     UNPROTECT(1);
     return raw;
 }

@@ -1,17 +1,73 @@
-#' Get the root node of a syntax tree
-#'
-#' @param tree A \code{ts_tree} object from \code{\link{ts_parse}}.
-#' @return A \code{ts_node} object.
-#' @export
-ts_tree_root_node <- function(tree) {
-    .Call(c_ts_tree_root_node, tree)
+# tree_sitter_tree = list(pointer, text, language).
+
+new_tree <- function(pointer, text, language) {
+    out <- list(pointer = pointer, text = text, language = language)
+    class(out) <- "tree_sitter_tree"
+    out
 }
 
-#' Get the source text of a syntax tree
+#' Retrieve the root node of a tree
 #'
-#' @param tree A \code{ts_tree} object.
-#' @return The source string that was parsed.
+#' @param x A `tree_sitter_tree`.
+#' @return A `tree_sitter_node`.
 #' @export
-ts_tree_text <- function(tree) {
-    tree[["source"]]
+tree_root_node <- function(x) {
+    check_tree(x)
+    raw <- .Call(c_ts_tree_root_node, tree_pointer(x))
+    new_node(raw, x)
+}
+
+#' Tree accessors
+#'
+#' @description
+#' - `tree_text()` returns the text the tree was parsed with.
+#' - `tree_language()` returns the tree's `tree_sitter_language`.
+#'
+#' @param x A `tree_sitter_tree`.
+#' @return `tree_text()` a string; `tree_language()` a language.
+#' @name tree-accessors
+#' @export
+tree_text <- function(x) {
+    check_tree(x)
+    tree_text0(x)
+}
+
+#' @rdname tree-accessors
+#' @export
+tree_language <- function(x) {
+    check_tree(x)
+    tree_language0(x)
+}
+
+#' Is `x` a tree?
+#'
+#' @param x An object.
+#' @return `TRUE` or `FALSE`.
+#' @export
+is_tree <- function(x) {
+    inherits(x, "tree_sitter_tree")
+}
+
+#' @export
+print.tree_sitter_tree <- function(x, ...) {
+    root <- tree_root_node(x)
+    cat_line("<tree_sitter_tree>")
+    cat_line(node_raw_s_expression(root))
+    invisible(x)
+}
+
+tree_pointer <- function(x) {
+    .subset2(x, "pointer")
+}
+
+tree_text0 <- function(x) {
+    .subset2(x, "text")
+}
+
+tree_language0 <- function(x) {
+    .subset2(x, "language")
+}
+
+check_tree <- function(x, arg = "x") {
+    check_inherits(x, "tree_sitter_tree", arg)
 }

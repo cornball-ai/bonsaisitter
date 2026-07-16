@@ -1,34 +1,38 @@
-#' Return the tree-sitter R language grammar
+# tree_sitter_language objects come from grammar packages (treesitter.r,
+# treesitter.python, treesitter.cpp, treesitter.c, ...). bonsaisitter is the
+# runtime: it consumes languages, it does not bundle or construct grammars.
+
+#' The name of a language
 #'
-#' Returns an external pointer to the bundled R language grammar
-#' for use with \code{\link{ts_parser_set_language}}.
-#'
-#' @return An external pointer of class \code{"ts_language"}.
+#' @param x A `tree_sitter_language`.
+#' @return A single string.
 #' @export
-ts_language_r <- function() {
-    .Call(c_ts_language_r)
+language_name <- function(x) {
+    check_language(x)
+    .subset2(x, "name")
 }
 
-#' Return the tree-sitter Python language grammar
+#' Is `x` a language?
 #'
-#' Returns an external pointer to the bundled Python language grammar
-#' for use with \code{\link{ts_parser_set_language}}.
-#'
-#' @return An external pointer of class \code{"ts_language"}.
+#' @param x An object.
+#' @return `TRUE` or `FALSE`.
 #' @export
-ts_language_python <- function() {
-    .Call(c_ts_language_python)
+is_language <- function(x) {
+    inherits(x, "tree_sitter_language")
 }
 
-#' Return the tree-sitter C++ language grammar
-#'
-#' Returns an external pointer to the bundled C++ language grammar
-#' (tree-sitter-cpp v0.23.4) for use with
-#' \code{\link{ts_parser_set_language}}. Handy for parsing C/C++ headers,
-#' for example to scaffold R bindings from a library's public API.
-#'
-#' @return An external pointer of class \code{"ts_language"}.
 #' @export
-ts_language_cpp <- function() {
-    .Call(c_ts_language_cpp)
+print.tree_sitter_language <- function(x, ...) {
+    cat_line("<tree_sitter_language>")
+    cat_line(sprintf("Name: %s", .subset2(x, "name")))
+    cat_line(sprintf("ABI: %d", as.integer(.subset2(x, "abi"))))
+    invisible(x)
+}
+
+language_pointer <- function(x) {
+    .subset2(x, "pointer")
+}
+
+check_language <- function(x, arg = "language") {
+    check_inherits(x, "tree_sitter_language", arg)
 }

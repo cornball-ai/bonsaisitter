@@ -12,6 +12,8 @@ static void cursor_finalizer(SEXP ptr) {
     }
 }
 
+/* `node_raw` is a bare packed TSNode; `tree_obj` is kept as the external
+   pointer's protected value so the tree outlives the cursor. */
 SEXP c_ts_cursor_new(SEXP node_raw, SEXP tree_obj) {
     TSNode node;
     memcpy(&node, RAW(node_raw), sizeof(TSNode));
@@ -22,23 +24,18 @@ SEXP c_ts_cursor_new(SEXP node_raw, SEXP tree_obj) {
 
     SEXP ptr = PROTECT(R_MakeExternalPtr(cursor, R_NilValue, tree_obj));
     R_RegisterCFinalizer(ptr, cursor_finalizer);
-    Rf_setAttrib(ptr, Rf_install("tree"), tree_obj);
-    Rf_setAttrib(ptr, R_ClassSymbol, Rf_mkString("ts_cursor"));
     UNPROTECT(1);
     return ptr;
 }
 
+/* Returns a bare raw; the R cursor wraps it with the tree it holds. */
 SEXP c_ts_cursor_node(SEXP cursor_ptr) {
     TSTreeCursor *cursor = (TSTreeCursor *)R_ExternalPtrAddr(cursor_ptr);
     if (!cursor) Rf_error("cursor has been freed");
 
     TSNode node = ts_tree_cursor_current_node(cursor);
-    SEXP tree_obj = Rf_getAttrib(cursor_ptr, Rf_install("tree"));
-
     SEXP raw = PROTECT(Rf_allocVector(RAWSXP, sizeof(TSNode)));
     memcpy(RAW(raw), &node, sizeof(TSNode));
-    Rf_setAttrib(raw, Rf_install("tree"), tree_obj);
-    Rf_setAttrib(raw, R_ClassSymbol, Rf_mkString("ts_node"));
     UNPROTECT(1);
     return raw;
 }

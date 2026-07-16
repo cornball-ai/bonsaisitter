@@ -1,31 +1,84 @@
-#' Create a new tree-sitter parser
-#'
-#' @return An external pointer of class \code{"ts_parser"}.
-#' @export
-ts_parser_new <- function() {
-    .Call(c_ts_parser_new)
+# tree_sitter_parser = list(language, pointer).
+
+new_parser <- function(language) {
+    pointer <- .Call(c_ts_parser_new)
+    ok <- .Call(c_ts_parser_set_language, pointer, language_pointer(language))
+    if (!isTRUE(ok)) {
+        stop(
+             "Failed to set the language on the parser (incompatible ABI version?).",
+             call. = FALSE
+        )
+    }
+    out <- list(language = language, pointer = pointer)
+    class(out) <- "tree_sitter_parser"
+    out
 }
 
-#' Set the language for a parser
+#' Create a parser
 #'
-#' @param parser A parser created by \code{\link{ts_parser_new}}.
-#' @param language A language object, e.g. from \code{\link{ts_language_r}}.
-#' @return \code{TRUE} on success, \code{FALSE} on ABI version mismatch.
+#' `parser()` constructs a parser from a `tree_sitter_language`. Use
+#' [parser_parse()] to parse text with it.
+#'
+#' @param language A `tree_sitter_language`, e.g. from [language_r()] or a
+#'   grammar package like `treesitter.r::language()`.
+#' @return A `tree_sitter_parser`.
 #' @export
-ts_parser_set_language <- function(parser, language) {
-    .Call(c_ts_parser_set_language, parser, language)
+parser <- function(language) {
+    check_language(language)
+    new_parser(language)
 }
 
-#' Parse source code into a syntax tree
+#' Set a parser's language
 #'
-#' @param parser A parser with a language set.
-#' @param source A single character string of source code.
-#' @param old_tree Optional previous tree for incremental parsing.
-#' @return A \code{ts_tree} object (list with \code{$ptr} and \code{$source}).
+#' @param x A `tree_sitter_parser`.
+#' @param language A `tree_sitter_language`.
+#' @return A new `tree_sitter_parser`.
 #' @export
-ts_parse <- function(parser, source, old_tree = NULL) {
-    stopifnot(is.character(source), length(source) == 1L)
-    tree <- .Call(c_ts_parse, parser, source, old_tree)
-    .Call(c_ts_tree_register_finalizer, tree[["ptr"]])
-    tree
+parser_set_language <- function(x, language) {
+    check_parser(x)
+    check_language(language)
+    new_parser(language)
+}
+
+#' Parse text into a syntax tree
+#'
+#' @param x A `tree_sitter_parser`.
+#' @param text A single string to parse.
+#' @param ... Unused.
+#' @return A `tree_sitter_tree`.
+#' @export
+parser_parse <- function(x, text, ...) {
+    check_parser(x)
+    check_string(text)
+    pointer <- .Call(c_ts_parse, parser_pointer0(x), text, NULL)
+    .Call(c_ts_tree_register_finalizer, pointer)
+    new_tree(pointer, text, parser_language0(x))
+}
+
+#' Is `x` a parser?
+#'
+#' @param x An object.
+#' @return `TRUE` or `FALSE`.
+#' @export
+is_parser <- function(x) {
+    inherits(x, "tree_sitter_parser")
+}
+
+#' @export
+print.tree_sitter_parser <- function(x, ...) {
+    cat_line("<tree_sitter_parser>")
+    cat_line(sprintf("Language: %s", language_name(parser_language0(x))))
+    invisible(x)
+}
+
+parser_language0 <- function(x) {
+    .subset2(x, "language")
+}
+
+parser_pointer0 <- function(x) {
+    .subset2(x, "pointer")
+}
+
+check_parser <- function(x, arg = "x") {
+    check_inherits(x, "tree_sitter_parser", arg)
 }

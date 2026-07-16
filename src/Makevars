@@ -1,9 +1,6 @@
-PKG_CPPFLAGS = -Itree-sitter/lib/include -Itree-sitter/lib/src \
-               -Itree-sitter-r/src -Itree-sitter-python/src -Itree-sitter-cpp/src
+PKG_CPPFLAGS = -Itree-sitter/lib/include -Itree-sitter/lib/src
 
 OBJECTS = tree-sitter/lib/src/lib.o \
-          tree-sitter-r/src/parser.o tree-sitter-r/src/scanner.o \
-          tree-sitter-python/src/parser.o tree-sitter-python/src/scanner.o \
-          tree-sitter-cpp/src/parser.o tree-sitter-cpp/src/scanner.o \
           init.o treesitr_parser.o treesitr_tree.o \
-          treesitr_node.o treesitr_cursor.o
+          treesitr_node.o treesitr_cursor.o treesitr_query.o \
+          treesitr_introspect.o

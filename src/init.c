@@ -3,37 +3,6 @@
 #include <R_ext/Rdynload.h>
 #include <tree_sitter/api.h>
 
-/* tree-sitter grammar entry points */
-extern const TSLanguage *tree_sitter_r(void);
-extern const TSLanguage *tree_sitter_python(void);
-extern const TSLanguage *tree_sitter_cpp(void);
-
-/* Language */
-SEXP c_ts_language_r(void) {
-    const TSLanguage *lang = tree_sitter_r();
-    SEXP ptr = PROTECT(R_MakeExternalPtr((void *)lang, R_NilValue, R_NilValue));
-    /* No finalizer — static data, not heap-allocated */
-    Rf_setAttrib(ptr, R_ClassSymbol, Rf_mkString("ts_language"));
-    UNPROTECT(1);
-    return ptr;
-}
-
-SEXP c_ts_language_python(void) {
-    const TSLanguage *lang = tree_sitter_python();
-    SEXP ptr = PROTECT(R_MakeExternalPtr((void *)lang, R_NilValue, R_NilValue));
-    Rf_setAttrib(ptr, R_ClassSymbol, Rf_mkString("ts_language"));
-    UNPROTECT(1);
-    return ptr;
-}
-
-SEXP c_ts_language_cpp(void) {
-    const TSLanguage *lang = tree_sitter_cpp();
-    SEXP ptr = PROTECT(R_MakeExternalPtr((void *)lang, R_NilValue, R_NilValue));
-    Rf_setAttrib(ptr, R_ClassSymbol, Rf_mkString("ts_language"));
-    UNPROTECT(1);
-    return ptr;
-}
-
 /* Parser */
 extern SEXP c_ts_parser_new(void);
 extern SEXP c_ts_parser_set_language(SEXP, SEXP);
@@ -75,11 +44,29 @@ extern SEXP c_ts_cursor_goto_parent(SEXP);
 extern SEXP c_ts_cursor_field_name(SEXP);
 extern SEXP c_ts_cursor_depth(SEXP);
 
+/* Query */
+extern SEXP c_ts_query_new(SEXP, SEXP);
+extern SEXP c_ts_query_capture_names(SEXP);
+extern SEXP c_ts_query_pattern_count(SEXP);
+extern SEXP c_ts_query_capture_count(SEXP);
+extern SEXP c_ts_query_string_count(SEXP);
+extern SEXP c_ts_query_captures(SEXP, SEXP);
+
+/* Introspection */
+extern SEXP c_ts_node_has_error(SEXP);
+extern SEXP c_ts_node_is_error(SEXP);
+extern SEXP c_ts_node_is_missing(SEXP);
+extern SEXP c_ts_node_is_extra(SEXP);
+extern SEXP c_ts_node_descendant_count(SEXP);
+extern SEXP c_ts_node_grammar_type(SEXP);
+extern SEXP c_ts_language_symbol_count(SEXP);
+extern SEXP c_ts_language_symbol_name(SEXP, SEXP);
+extern SEXP c_ts_language_symbol_for_name(SEXP, SEXP, SEXP);
+extern SEXP c_ts_language_field_count(SEXP);
+extern SEXP c_ts_language_field_name_for_id(SEXP, SEXP);
+extern SEXP c_ts_language_field_id_for_name(SEXP, SEXP);
+
 static const R_CallMethodDef CallEntries[] = {
-    /* Language */
-    {"c_ts_language_r",              (DL_FUNC) &c_ts_language_r,              0},
-    {"c_ts_language_python",         (DL_FUNC) &c_ts_language_python,         0},
-    {"c_ts_language_cpp",            (DL_FUNC) &c_ts_language_cpp,            0},
     /* Parser */
     {"c_ts_parser_new",              (DL_FUNC) &c_ts_parser_new,              0},
     {"c_ts_parser_set_language",     (DL_FUNC) &c_ts_parser_set_language,     2},
@@ -117,6 +104,26 @@ static const R_CallMethodDef CallEntries[] = {
     {"c_ts_cursor_goto_parent",      (DL_FUNC) &c_ts_cursor_goto_parent,      1},
     {"c_ts_cursor_field_name",       (DL_FUNC) &c_ts_cursor_field_name,       1},
     {"c_ts_cursor_depth",            (DL_FUNC) &c_ts_cursor_depth,            1},
+    /* Query */
+    {"c_ts_query_new",               (DL_FUNC) &c_ts_query_new,               2},
+    {"c_ts_query_capture_names",     (DL_FUNC) &c_ts_query_capture_names,     1},
+    {"c_ts_query_pattern_count",     (DL_FUNC) &c_ts_query_pattern_count,     1},
+    {"c_ts_query_capture_count",     (DL_FUNC) &c_ts_query_capture_count,     1},
+    {"c_ts_query_string_count",      (DL_FUNC) &c_ts_query_string_count,      1},
+    {"c_ts_query_captures",          (DL_FUNC) &c_ts_query_captures,          2},
+    /* Introspection */
+    {"c_ts_node_has_error",          (DL_FUNC) &c_ts_node_has_error,          1},
+    {"c_ts_node_is_error",           (DL_FUNC) &c_ts_node_is_error,           1},
+    {"c_ts_node_is_missing",         (DL_FUNC) &c_ts_node_is_missing,         1},
+    {"c_ts_node_is_extra",           (DL_FUNC) &c_ts_node_is_extra,           1},
+    {"c_ts_node_descendant_count",   (DL_FUNC) &c_ts_node_descendant_count,   1},
+    {"c_ts_node_grammar_type",       (DL_FUNC) &c_ts_node_grammar_type,       1},
+    {"c_ts_language_symbol_count",   (DL_FUNC) &c_ts_language_symbol_count,   1},
+    {"c_ts_language_symbol_name",    (DL_FUNC) &c_ts_language_symbol_name,    2},
+    {"c_ts_language_symbol_for_name",(DL_FUNC) &c_ts_language_symbol_for_name,3},
+    {"c_ts_language_field_count",    (DL_FUNC) &c_ts_language_field_count,    1},
+    {"c_ts_language_field_name_for_id",(DL_FUNC) &c_ts_language_field_name_for_id,2},
+    {"c_ts_language_field_id_for_name",(DL_FUNC) &c_ts_language_field_id_for_name,2},
     {NULL, NULL, 0}
 };
 

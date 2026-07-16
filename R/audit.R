@@ -1,8 +1,28 @@
+# Look up a grammar from its (Suggested) package. Kept as a runtime-side helper
+# so the grammar packages stay optional -- requireNamespace, not Imports, and
+# not listed in Suggests when they are not yet on CRAN.
+grammar_language <- function(lang) {
+  pkg <- switch(lang,
+    r = "treesitter.r",
+    python = "treesitter.python",
+    cpp = "treesitter.cpp"
+  )
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(sprintf(
+      "The '%s' grammar package is required to parse %s code. Install it first.",
+      pkg, lang
+    ), call. = FALSE)
+  }
+  getExportedValue(pkg, "language")()
+}
+
 #' Extract numeric literals and call names from source code
 #'
 #' Parses \code{code} with tree-sitter and walks the AST collecting every
 #' numeric literal (integer / float) and the callee name of every call. The
-#' building block for \code{\link{audit_translation}}.
+#' building block for \code{\link{audit_translation}}. Requires the grammar
+#' package for \code{lang} (\code{treesitter.r}, \code{treesitter.python}, or
+#' \code{treesitter.cpp}) to be installed.
 #'
 #' @param code Character scalar of source code.
 #' @param lang Language: \code{"r"} (default), \code{"python"}, or
@@ -11,29 +31,25 @@
 #' @return A list with \code{literals} and \code{calls} (character vectors,
 #'   in source order).
 #'
-#' @examples
+#' @examplesIf requireNamespace("treesitter.r", quietly = TRUE)
 #' literals_and_calls("f(1L, 2.5) + g(3)")
 #'
 #' @export
 literals_and_calls <- function(code, lang = c("r", "python", "cpp")) {
   lang <- match.arg(lang)
-  langfn <- switch(lang,
-    r = ts_language_r, python = ts_language_python, cpp = ts_language_cpp)
-  parser <- ts_parser_new()
-  ts_parser_set_language(parser, langfn())
-  root <- ts_tree_root_node(ts_parse(parser, code))
+  root <- tree_root_node(parser_parse(parser(grammar_language(lang)), code))
   nums <- character(0)
   calls <- character(0)
   walk <- function(n) {
-    ty <- ts_node_type(n)
+    ty <- node_type(n)
     if (ty %in% c("float", "integer", "complex")) {
-      nums <<- c(nums, ts_node_text(n))
+      nums <<- c(nums, node_text(n))
     }
     if (ty == "call") {
-      fn <- ts_node_child_by_field(n, "function")
-      if (!ts_node_is_null(fn)) calls <<- c(calls, ts_node_text(fn))
+      fn <- node_child_by_field_name(n, "function")
+      if (!is.null(fn)) calls <<- c(calls, node_text(fn))
     }
-    for (ch in ts_node_children(n)) walk(ch)
+    for (ch in node_children(n)) walk(ch)
   }
   walk(root)
   list(literals = nums, calls = calls)
@@ -62,7 +78,7 @@ literals_and_calls <- function(code, lang = c("r", "python", "cpp")) {
 #'   \code{literals_extra} (in port, not reference), and the full
 #'   \code{reference} / \code{port} extractions.
 #'
-#' @examples
+#' @examplesIf requireNamespace("treesitter.r", quietly = TRUE)
 #' audit_translation("clamp(x, 1e-10); y * 8", "pmax(x, 1e-10); y * 8")
 #'
 #' @export
