@@ -44,6 +44,14 @@ extern SEXP c_ts_cursor_goto_parent(SEXP);
 extern SEXP c_ts_cursor_field_name(SEXP);
 extern SEXP c_ts_cursor_depth(SEXP);
 
+/* Query */
+extern SEXP c_ts_query_new(SEXP, SEXP);
+extern SEXP c_ts_query_capture_names(SEXP);
+extern SEXP c_ts_query_pattern_count(SEXP);
+extern SEXP c_ts_query_capture_count(SEXP);
+extern SEXP c_ts_query_string_count(SEXP);
+extern SEXP c_ts_query_captures(SEXP, SEXP);
+
 static const R_CallMethodDef CallEntries[] = {
     /* Parser */
     {"c_ts_parser_new",              (DL_FUNC) &c_ts_parser_new,              0},
@@ -82,6 +90,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"c_ts_cursor_goto_parent",      (DL_FUNC) &c_ts_cursor_goto_parent,      1},
     {"c_ts_cursor_field_name",       (DL_FUNC) &c_ts_cursor_field_name,       1},
     {"c_ts_cursor_depth",            (DL_FUNC) &c_ts_cursor_depth,            1},
+    /* Query */
+    {"c_ts_query_new",               (DL_FUNC) &c_ts_query_new,               2},
+    {"c_ts_query_capture_names",     (DL_FUNC) &c_ts_query_capture_names,     1},
+    {"c_ts_query_pattern_count",     (DL_FUNC) &c_ts_query_pattern_count,     1},
+    {"c_ts_query_capture_count",     (DL_FUNC) &c_ts_query_capture_count,     1},
+    {"c_ts_query_string_count",      (DL_FUNC) &c_ts_query_string_count,      1},
+    {"c_ts_query_captures",          (DL_FUNC) &c_ts_query_captures,          2},
     {NULL, NULL, 0}
 };
 
