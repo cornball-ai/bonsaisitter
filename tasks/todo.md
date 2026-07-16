@@ -52,12 +52,22 @@ All work is in the R layer and C return shapes. Decisions: core first, kill the
 - [ ] Add man/ (roxygen) + README + CI to the grammar packages before CRAN
 - [ ] Only add treesitter.python/cpp to bonsaisitter Suggests once they are on CRAN
 
-## Phase 4 (introspection tail) -- high-value subset done
-- [x] node_has_error/is_error/is_missing/is_extra, node_descendant_count
-- [x] node_grammar_type, node_language, text_parse
-- [x] language_symbol_count/name/for_name, language_field_count/name_for_id/id_for_name
-- [ ] node_child_by_field_id, node_field_name_for_child, node descendant-range lookups
-- [ ] node_grammar_symbol/symbol, node_parse_state/next_parse_state, node states
-- [ ] parser_reparse, parser_set_timeout, parser_set_included_ranges
-- [ ] tree_included_ranges, tree_root_node_with_offset
-- [ ] node_show_s_expression pretty printer (currently prints the raw s-expr)
+## Phase 4 (introspection tail) -- done
+- [x] node state predicates, descendant_count, grammar_type, node_language, text_parse
+- [x] language symbol + field tables
+- [x] node symbols/parse-states, child_by_field_id, field_name_for_child/_named_child
+- [x] node byte/point lookups (first_child_for_byte, descendant_for_*_range + named)
+- [x] language_state_count/next_state
+- [x] query_matches, query_start/end_byte_for_pattern
+- [x] tree_included_ranges, tree_root_node_with_offset
+- [x] parser_reparse, parser_set_timeout (via parse_with_options deadline),
+      parser_set_included_ranges
+
+## Full API parity reached
+91 exports; the only treesitter export not matched is TreeCursor (R6), replaced
+by the base-R tree_walk/node_walk cursor + is_tree_cursor. 169 tinytests.
+
+## Intentional deviations / minor gaps
+- query_matches returns a flat list(pattern,name,node), not treesitter's by-pattern nesting
+- node_show_s_expression prints the raw s-expr (no indented pretty-printer yet)
+- query predicates (#eq?/#match?) not applied; query_captures returns all captures

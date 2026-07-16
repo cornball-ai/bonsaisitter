@@ -6,8 +6,8 @@
 parser(language)
 }
 \arguments{
-\item{language}{A `tree_sitter_language`, e.g. from [language_r()] or a
-grammar package like `treesitter.r::language()`.}
+\item{language}{A `tree_sitter_language`, e.g. from a grammar package like
+`treesitter.r::language()`.}
 }
 \value{
 A `tree_sitter_parser`.
