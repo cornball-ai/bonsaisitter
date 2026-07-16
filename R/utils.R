@@ -9,6 +9,7 @@
 #' @return A base data frame with columns: type, named, text, start_row,
 #'   start_col, end_row, end_col, start_byte, end_byte.
 #' @export
-as.data.frame.tree_sitter_node <- function(x, row.names = NULL, optional = FALSE, ...) {
+as.data.frame.tree_sitter_node <- function(x, row.names = NULL,
+    optional = FALSE, ...) {
     .Call(c_ts_node_descendants_df, node_raw(x), tree_text0(node_tree(x)))
 }

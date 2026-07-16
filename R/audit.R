@@ -16,25 +16,29 @@
 #'
 #' @export
 literals_and_calls <- function(code, lang = c("r", "python", "cpp")) {
-  lang <- match.arg(lang)
-  language <- switch(lang,
-    r = language_r(), python = language_python(), cpp = language_cpp())
-  root <- tree_root_node(parser_parse(parser(language), code))
-  nums <- character(0)
-  calls <- character(0)
-  walk <- function(n) {
-    ty <- node_type(n)
-    if (ty %in% c("float", "integer", "complex")) {
-      nums <<- c(nums, node_text(n))
+    lang <- match.arg(lang)
+    language <- switch(lang, r = language_r(), python = language_python(),
+                       cpp = language_cpp())
+    root <- tree_root_node(parser_parse(parser(language), code))
+    nums <- character(0)
+    calls <- character(0)
+    walk <- function(n) {
+        ty <- node_type(n)
+        if (ty %in% c("float", "integer", "complex")) {
+            nums <<- c(nums, node_text(n))
+        }
+        if (ty == "call") {
+            fn <- node_child_by_field_name(n, "function")
+            if (!is.null(fn)) {
+                calls <<- c(calls, node_text(fn))
+            }
+        }
+        for (ch in node_children(n)) {
+            walk(ch)
+        }
     }
-    if (ty == "call") {
-      fn <- node_child_by_field_name(n, "function")
-      if (!is.null(fn)) calls <<- c(calls, node_text(fn))
-    }
-    for (ch in node_children(n)) walk(ch)
-  }
-  walk(root)
-  list(literals = nums, calls = calls)
+    walk(root)
+    list(literals = nums, calls = calls)
 }
 
 #' Audit a code translation for drifted numeric constants
@@ -65,20 +69,16 @@ literals_and_calls <- function(code, lang = c("r", "python", "cpp")) {
 #'
 #' @export
 audit_translation <- function(reference, port, lang = "r", normalize = TRUE) {
-  lang <- rep_len(lang, 2L)
-  ref <- literals_and_calls(reference, lang[1L])
-  prt <- literals_and_calls(port, lang[2L])
-  norm <- if (normalize) {
-    function(v) as.character(as.numeric(sub("L$", "", v)))
-  } else {
-    identity
-  }
-  rn <- unique(norm(ref$literals))
-  pn <- unique(norm(prt$literals))
-  list(
-    literals_missing = setdiff(rn, pn),
-    literals_extra = setdiff(pn, rn),
-    reference = ref,
-    port = prt
-  )
+    lang <- rep_len(lang, 2L)
+    ref <- literals_and_calls(reference, lang[1L])
+    prt <- literals_and_calls(port, lang[2L])
+    norm <- if (normalize) {
+        function(v) as.character(as.numeric(sub("L$", "", v)))
+    } else {
+        identity
+    }
+    rn <- unique(norm(ref$literals))
+    pn <- unique(norm(prt$literals))
+    list(literals_missing = setdiff(rn, pn), literals_extra = setdiff(pn, rn),
+         reference = ref, port = prt)
 }

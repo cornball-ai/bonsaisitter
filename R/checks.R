@@ -24,11 +24,16 @@ check_number_whole <- function(x, min = NULL, arg = "x") {
         stop(sprintf("`%s` must be a single whole number.", arg), call. = FALSE)
     }
     if (!is.null(min) && x < min) {
-        stop(sprintf("`%s` must be greater than or equal to %s.", arg, min), call. = FALSE)
+        stop(sprintf("`%s` must be greater than or equal to %s.", arg, min),
+             call. = FALSE)
     }
     invisible(NULL)
 }
 
 `%||%` <- function(x, y) {
-    if (is.null(x)) y else x
+    if (is.null(x)) {
+        y
+    } else {
+        x
+    }
 }

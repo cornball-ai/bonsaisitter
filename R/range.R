@@ -1,12 +1,8 @@
 # tree_sitter_range = list(start_byte, start_point, end_byte, end_point).
 
 new_range <- function(start_byte, start_point, end_byte, end_point) {
-    out <- list(
-        start_byte = start_byte,
-        start_point = start_point,
-        end_byte = end_byte,
-        end_point = end_point
-    )
+    out <- list(start_byte = start_byte, start_point = start_point,
+                end_byte = end_byte, end_point = end_point)
     class(out) <- "tree_sitter_range"
     out
 }
@@ -76,11 +72,9 @@ print.tree_sitter_range <- function(x, ...) {
     sp <- .subset2(x, "start_point")
     ep <- .subset2(x, "end_point")
     cat_line("<tree_sitter_range>")
-    cat_line(sprintf(
-        "[%g, %g] - [%g, %g]",
-        .subset2(sp, "row"), .subset2(sp, "column"),
-        .subset2(ep, "row"), .subset2(ep, "column")
-    ))
+    cat_line(sprintf("[%g, %g] - [%g, %g]", .subset2(sp, "row"),
+                     .subset2(sp, "column"), .subset2(ep, "row"),
+                     .subset2(ep, "column")))
     invisible(x)
 }
 

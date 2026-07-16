@@ -5,8 +5,8 @@ new_parser <- function(language) {
     ok <- .Call(c_ts_parser_set_language, pointer, language_pointer(language))
     if (!isTRUE(ok)) {
         stop(
-            "Failed to set the language on the parser (incompatible ABI version?).",
-            call. = FALSE
+             "Failed to set the language on the parser (incompatible ABI version?).",
+             call. = FALSE
         )
     }
     out <- list(language = language, pointer = pointer)

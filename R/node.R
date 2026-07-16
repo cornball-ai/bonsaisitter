@@ -108,12 +108,8 @@ node_end_byte <- function(x) {
 #' @export
 node_range <- function(x) {
     check_node(x)
-    new_range(
-        node_start_byte(x),
-        node_start_point(x),
-        node_end_byte(x),
-        node_end_point(x)
-    )
+    new_range(node_start_byte(x), node_start_point(x), node_end_byte(x),
+              node_end_point(x))
 }
 
 #' Child counts
@@ -143,14 +139,16 @@ node_named_child_count <- function(x) {
 #' @export
 node_child <- function(x, i) {
     check_node(x)
-    wrap_node(.Call(c_ts_node_child, node_raw(x), as.integer(i) - 1L), node_tree(x))
+    wrap_node(.Call(c_ts_node_child, node_raw(x), as.integer(i) - 1L),
+              node_tree(x))
 }
 
 #' @rdname node-child
 #' @export
 node_named_child <- function(x, i) {
     check_node(x)
-    wrap_node(.Call(c_ts_node_named_child, node_raw(x), as.integer(i) - 1L), node_tree(x))
+    wrap_node(.Call(c_ts_node_named_child, node_raw(x), as.integer(i) - 1L),
+              node_tree(x))
 }
 
 #' All children of a node
@@ -161,14 +159,16 @@ node_named_child <- function(x, i) {
 #' @export
 node_children <- function(x) {
     check_node(x)
-    lapply(.Call(c_ts_node_children, node_raw(x), FALSE), new_node, tree = node_tree(x))
+    lapply(.Call(c_ts_node_children, node_raw(x), FALSE), new_node,
+           tree = node_tree(x))
 }
 
 #' @rdname node-children
 #' @export
 node_named_children <- function(x) {
     check_node(x)
-    lapply(.Call(c_ts_node_children, node_raw(x), TRUE), new_node, tree = node_tree(x))
+    lapply(.Call(c_ts_node_children, node_raw(x), TRUE), new_node,
+           tree = node_tree(x))
 }
 
 #' A child by field name
@@ -179,7 +179,8 @@ node_named_children <- function(x) {
 #' @export
 node_child_by_field_name <- function(x, name) {
     check_node(x)
-    wrap_node(.Call(c_ts_node_child_by_field, node_raw(x), as.character(name)), node_tree(x))
+    wrap_node(.Call(c_ts_node_child_by_field, node_raw(x), as.character(name)),
+              node_tree(x))
 }
 
 #' Sibling and parent navigation
