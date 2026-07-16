@@ -1,7 +1,28 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
+#include <stdlib.h>
 #include <tree_sitter/api.h>
+
+/* Custom allocator: route out-of-memory through R's error handler rather than
+   the upstream fprintf(stderr)+abort() (which R CMD check flags). Registered in
+   R_init_bonsaisitter via ts_set_allocator(); see the patch in
+   tree-sitter/lib/src/alloc.c. */
+static void *bonsai_malloc(size_t size) {
+    void *p = malloc(size);
+    if (size > 0 && !p) Rf_error("tree-sitter: failed to allocate memory");
+    return p;
+}
+static void *bonsai_calloc(size_t count, size_t size) {
+    void *p = calloc(count, size);
+    if (count > 0 && !p) Rf_error("tree-sitter: failed to allocate memory");
+    return p;
+}
+static void *bonsai_realloc(void *ptr, size_t size) {
+    void *p = realloc(ptr, size);
+    if (size > 0 && !p) Rf_error("tree-sitter: failed to allocate memory");
+    return p;
+}
 
 /* Parser */
 extern SEXP c_ts_parser_new(void);
@@ -175,6 +196,7 @@ static const R_CallMethodDef CallEntries[] = {
 };
 
 void R_init_bonsaisitter(DllInfo *dll) {
+    ts_set_allocator(bonsai_malloc, bonsai_calloc, bonsai_realloc, free);
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
