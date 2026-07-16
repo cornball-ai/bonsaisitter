@@ -34,6 +34,13 @@ SEXP c_ts_language_cpp(void) {
     return ptr;
 }
 
+/* ABI version of a grammar, for the tree_sitter_language `abi` field. */
+SEXP c_ts_language_version(SEXP language_ptr) {
+    const TSLanguage *lang = (const TSLanguage *)R_ExternalPtrAddr(language_ptr);
+    if (!lang) Rf_error("language has been freed");
+    return Rf_ScalarInteger((int)ts_language_abi_version(lang));
+}
+
 /* Parser */
 extern SEXP c_ts_parser_new(void);
 extern SEXP c_ts_parser_set_language(SEXP, SEXP);
@@ -80,6 +87,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"c_ts_language_r",              (DL_FUNC) &c_ts_language_r,              0},
     {"c_ts_language_python",         (DL_FUNC) &c_ts_language_python,         0},
     {"c_ts_language_cpp",            (DL_FUNC) &c_ts_language_cpp,            0},
+    {"c_ts_language_version",        (DL_FUNC) &c_ts_language_version,        1},
     /* Parser */
     {"c_ts_parser_new",              (DL_FUNC) &c_ts_parser_new,              0},
     {"c_ts_parser_set_language",     (DL_FUNC) &c_ts_parser_set_language,     2},

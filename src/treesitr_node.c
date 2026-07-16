@@ -3,22 +3,35 @@
 #include <string.h>
 #include <tree_sitter/api.h>
 
-/* Helper: reconstruct TSNode from raw vector */
+/* A node is packed as the raw bytes of a TSNode. The R layer wraps it in a
+   list(raw, tree); C only ever sees the bare raw and returns bare raws. */
+
 static TSNode raw_to_node(SEXP raw) {
     TSNode node;
     memcpy(&node, RAW(raw), sizeof(TSNode));
     return node;
 }
 
-/* Helper: wrap TSNode as raw vector with tree attribute */
-static SEXP node_to_raw(TSNode node, SEXP tree_obj) {
+/* Bare raw for a TSNode, or NULL for a null node. No class, no attributes;
+   the R layer attaches the owning tree and the class. */
+static SEXP node_as_raw(TSNode node) {
     if (ts_node_is_null(node)) return R_NilValue;
     SEXP raw = PROTECT(Rf_allocVector(RAWSXP, sizeof(TSNode)));
     memcpy(RAW(raw), &node, sizeof(TSNode));
-    Rf_setAttrib(raw, Rf_install("tree"), tree_obj);
-    Rf_setAttrib(raw, R_ClassSymbol, Rf_mkString("ts_node"));
     UNPROTECT(1);
     return raw;
+}
+
+static SEXP point_vec(TSPoint pt) {
+    SEXP result = PROTECT(Rf_allocVector(INTSXP, 2));
+    INTEGER(result)[0] = (int)pt.row;
+    INTEGER(result)[1] = (int)pt.column;
+    SEXP names = PROTECT(Rf_allocVector(STRSXP, 2));
+    SET_STRING_ELT(names, 0, Rf_mkChar("row"));
+    SET_STRING_ELT(names, 1, Rf_mkChar("column"));
+    Rf_setAttrib(result, R_NamesSymbol, names);
+    UNPROTECT(2);
+    return result;
 }
 
 SEXP c_ts_node_type(SEXP node_raw) {
@@ -28,120 +41,75 @@ SEXP c_ts_node_type(SEXP node_raw) {
 }
 
 SEXP c_ts_node_is_named(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    return Rf_ScalarLogical(ts_node_is_named(node));
+    return Rf_ScalarLogical(ts_node_is_named(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_is_null(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    return Rf_ScalarLogical(ts_node_is_null(node));
+    return Rf_ScalarLogical(ts_node_is_null(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_start_point(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    TSPoint pt = ts_node_start_point(node);
-    SEXP result = PROTECT(Rf_allocVector(INTSXP, 2));
-    INTEGER(result)[0] = (int)pt.row;
-    INTEGER(result)[1] = (int)pt.column;
-    SEXP names = PROTECT(Rf_allocVector(STRSXP, 2));
-    SET_STRING_ELT(names, 0, Rf_mkChar("row"));
-    SET_STRING_ELT(names, 1, Rf_mkChar("column"));
-    Rf_setAttrib(result, R_NamesSymbol, names);
-    UNPROTECT(2);
-    return result;
+    return point_vec(ts_node_start_point(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_end_point(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    TSPoint pt = ts_node_end_point(node);
-    SEXP result = PROTECT(Rf_allocVector(INTSXP, 2));
-    INTEGER(result)[0] = (int)pt.row;
-    INTEGER(result)[1] = (int)pt.column;
-    SEXP names = PROTECT(Rf_allocVector(STRSXP, 2));
-    SET_STRING_ELT(names, 0, Rf_mkChar("row"));
-    SET_STRING_ELT(names, 1, Rf_mkChar("column"));
-    Rf_setAttrib(result, R_NamesSymbol, names);
-    UNPROTECT(2);
-    return result;
+    return point_vec(ts_node_end_point(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_start_byte(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    return Rf_ScalarInteger((int)ts_node_start_byte(node));
+    return Rf_ScalarInteger((int)ts_node_start_byte(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_end_byte(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    return Rf_ScalarInteger((int)ts_node_end_byte(node));
+    return Rf_ScalarInteger((int)ts_node_end_byte(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_child_count(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    return Rf_ScalarInteger((int)ts_node_child_count(node));
+    return Rf_ScalarInteger((int)ts_node_child_count(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_named_child_count(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    return Rf_ScalarInteger((int)ts_node_named_child_count(node));
+    return Rf_ScalarInteger((int)ts_node_named_child_count(raw_to_node(node_raw)));
 }
 
+/* `index` is 0-indexed here; the R layer converts from 1-indexed. */
 SEXP c_ts_node_child(SEXP node_raw, SEXP index) {
     TSNode node = raw_to_node(node_raw);
     uint32_t i = (uint32_t)Rf_asInteger(index);
-    TSNode child = ts_node_child(node, i);
-    SEXP tree_obj = Rf_getAttrib(node_raw, Rf_install("tree"));
-    return node_to_raw(child, tree_obj);
+    return node_as_raw(ts_node_child(node, i));
 }
 
 SEXP c_ts_node_named_child(SEXP node_raw, SEXP index) {
     TSNode node = raw_to_node(node_raw);
     uint32_t i = (uint32_t)Rf_asInteger(index);
-    TSNode child = ts_node_named_child(node, i);
-    SEXP tree_obj = Rf_getAttrib(node_raw, Rf_install("tree"));
-    return node_to_raw(child, tree_obj);
+    return node_as_raw(ts_node_named_child(node, i));
 }
 
 SEXP c_ts_node_parent(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    TSNode parent = ts_node_parent(node);
-    SEXP tree_obj = Rf_getAttrib(node_raw, Rf_install("tree"));
-    return node_to_raw(parent, tree_obj);
+    return node_as_raw(ts_node_parent(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_next_sibling(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    TSNode sib = ts_node_next_sibling(node);
-    SEXP tree_obj = Rf_getAttrib(node_raw, Rf_install("tree"));
-    return node_to_raw(sib, tree_obj);
+    return node_as_raw(ts_node_next_sibling(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_prev_sibling(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    TSNode sib = ts_node_prev_sibling(node);
-    SEXP tree_obj = Rf_getAttrib(node_raw, Rf_install("tree"));
-    return node_to_raw(sib, tree_obj);
+    return node_as_raw(ts_node_prev_sibling(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_next_named_sibling(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    TSNode sib = ts_node_next_named_sibling(node);
-    SEXP tree_obj = Rf_getAttrib(node_raw, Rf_install("tree"));
-    return node_to_raw(sib, tree_obj);
+    return node_as_raw(ts_node_next_named_sibling(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_prev_named_sibling(SEXP node_raw) {
-    TSNode node = raw_to_node(node_raw);
-    TSNode sib = ts_node_prev_named_sibling(node);
-    SEXP tree_obj = Rf_getAttrib(node_raw, Rf_install("tree"));
-    return node_to_raw(sib, tree_obj);
+    return node_as_raw(ts_node_prev_named_sibling(raw_to_node(node_raw)));
 }
 
 SEXP c_ts_node_child_by_field(SEXP node_raw, SEXP name) {
     TSNode node = raw_to_node(node_raw);
     const char *field = CHAR(STRING_ELT(name, 0));
     TSNode child = ts_node_child_by_field_name(node, field, (uint32_t)strlen(field));
-    SEXP tree_obj = Rf_getAttrib(node_raw, Rf_install("tree"));
-    return node_to_raw(child, tree_obj);
+    return node_as_raw(child);
 }
 
 SEXP c_ts_node_text(SEXP node_raw, SEXP source_str) {
@@ -163,9 +131,9 @@ SEXP c_ts_node_sexpr(SEXP node_raw) {
     return result;
 }
 
+/* Returns a list of bare raws; the R layer wraps each into a node. */
 SEXP c_ts_node_children(SEXP node_raw, SEXP named) {
     TSNode node = raw_to_node(node_raw);
-    SEXP tree_obj = Rf_getAttrib(node_raw, Rf_install("tree"));
     int use_named = Rf_asLogical(named);
 
     uint32_t count = use_named ?
@@ -177,14 +145,14 @@ SEXP c_ts_node_children(SEXP node_raw, SEXP named) {
         TSNode child = use_named ?
             ts_node_named_child(node, i) :
             ts_node_child(node, i);
-        SET_VECTOR_ELT(result, i, node_to_raw(child, tree_obj));
+        SET_VECTOR_ELT(result, i, node_as_raw(child));
     }
     UNPROTECT(1);
     return result;
 }
 
-/* Recursive helper for as.data.frame */
-static void collect_descendants(TSNode node, SEXP tree_obj, const char *src,
+/* Recursive helper for as.data.frame (bonsaisitter extra, base data.frame) */
+static void collect_descendants(TSNode node, const char *src,
                                  int *idx, int max_n,
                                  SEXP types, SEXP named_vec, SEXP texts,
                                  SEXP start_rows, SEXP start_cols,
@@ -216,7 +184,7 @@ static void collect_descendants(TSNode node, SEXP tree_obj, const char *src,
 
     uint32_t n = ts_node_child_count(node);
     for (uint32_t c = 0; c < n; c++) {
-        collect_descendants(ts_node_child(node, c), tree_obj, src,
+        collect_descendants(ts_node_child(node, c), src,
                            idx, max_n, types, named_vec, texts,
                            start_rows, start_cols, end_rows, end_cols,
                            start_bytes, end_bytes);
@@ -225,7 +193,6 @@ static void collect_descendants(TSNode node, SEXP tree_obj, const char *src,
 
 SEXP c_ts_node_descendants_df(SEXP node_raw, SEXP source_str) {
     TSNode node = raw_to_node(node_raw);
-    SEXP tree_obj = Rf_getAttrib(node_raw, Rf_install("tree"));
     const char *src = CHAR(STRING_ELT(source_str, 0));
 
     int n = (int)ts_node_descendant_count(node);
@@ -241,12 +208,11 @@ SEXP c_ts_node_descendants_df(SEXP node_raw, SEXP source_str) {
     SEXP end_bytes = PROTECT(Rf_allocVector(INTSXP, n));
 
     int idx = 0;
-    collect_descendants(node, tree_obj, src, &idx, n,
+    collect_descendants(node, src, &idx, n,
                        types, named_vec, texts,
                        start_rows, start_cols, end_rows, end_cols,
                        start_bytes, end_bytes);
 
-    /* Build data.frame */
     SEXP df = PROTECT(Rf_allocVector(VECSXP, 9));
     SET_VECTOR_ELT(df, 0, types);
     SET_VECTOR_ELT(df, 1, named_vec);

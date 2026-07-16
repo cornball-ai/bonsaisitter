@@ -17,23 +17,21 @@
 #' @export
 literals_and_calls <- function(code, lang = c("r", "python", "cpp")) {
   lang <- match.arg(lang)
-  langfn <- switch(lang,
-    r = ts_language_r, python = ts_language_python, cpp = ts_language_cpp)
-  parser <- ts_parser_new()
-  ts_parser_set_language(parser, langfn())
-  root <- ts_tree_root_node(ts_parse(parser, code))
+  language <- switch(lang,
+    r = language_r(), python = language_python(), cpp = language_cpp())
+  root <- tree_root_node(parser_parse(parser(language), code))
   nums <- character(0)
   calls <- character(0)
   walk <- function(n) {
-    ty <- ts_node_type(n)
+    ty <- node_type(n)
     if (ty %in% c("float", "integer", "complex")) {
-      nums <<- c(nums, ts_node_text(n))
+      nums <<- c(nums, node_text(n))
     }
     if (ty == "call") {
-      fn <- ts_node_child_by_field(n, "function")
-      if (!ts_node_is_null(fn)) calls <<- c(calls, ts_node_text(fn))
+      fn <- node_child_by_field_name(n, "function")
+      if (!is.null(fn)) calls <<- c(calls, node_text(fn))
     }
-    for (ch in ts_node_children(n)) walk(ch)
+    for (ch in node_children(n)) walk(ch)
   }
   walk(root)
   list(literals = nums, calls = calls)
