@@ -6,7 +6,9 @@
 /* Parser */
 extern SEXP c_ts_parser_new(void);
 extern SEXP c_ts_parser_set_language(SEXP, SEXP);
-extern SEXP c_ts_parse(SEXP, SEXP, SEXP);
+extern SEXP c_ts_parse(SEXP, SEXP, SEXP, SEXP);
+extern SEXP c_ts_parser_set_included_ranges(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP c_ts_reparse(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 /* Tree */
 extern SEXP c_ts_tree_register_finalizer(SEXP);
@@ -92,7 +94,9 @@ static const R_CallMethodDef CallEntries[] = {
     /* Parser */
     {"c_ts_parser_new",              (DL_FUNC) &c_ts_parser_new,              0},
     {"c_ts_parser_set_language",     (DL_FUNC) &c_ts_parser_set_language,     2},
-    {"c_ts_parse",                   (DL_FUNC) &c_ts_parse,                   3},
+    {"c_ts_parse",                   (DL_FUNC) &c_ts_parse,                   4},
+    {"c_ts_parser_set_included_ranges",(DL_FUNC) &c_ts_parser_set_included_ranges,7},
+    {"c_ts_reparse",                 (DL_FUNC) &c_ts_reparse,                 13},
     /* Tree */
     {"c_ts_tree_register_finalizer", (DL_FUNC) &c_ts_tree_register_finalizer, 1},
     {"c_ts_tree_root_node",          (DL_FUNC) &c_ts_tree_root_node,          1},
