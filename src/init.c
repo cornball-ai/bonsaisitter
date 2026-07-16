@@ -66,6 +66,28 @@ extern SEXP c_ts_language_field_count(SEXP);
 extern SEXP c_ts_language_field_name_for_id(SEXP, SEXP);
 extern SEXP c_ts_language_field_id_for_name(SEXP, SEXP);
 
+/* Tail */
+extern SEXP c_ts_node_symbol(SEXP);
+extern SEXP c_ts_node_grammar_symbol(SEXP);
+extern SEXP c_ts_node_parse_state(SEXP);
+extern SEXP c_ts_node_next_parse_state(SEXP);
+extern SEXP c_ts_node_child_by_field_id(SEXP, SEXP);
+extern SEXP c_ts_node_field_name_for_child(SEXP, SEXP);
+extern SEXP c_ts_node_field_name_for_named_child(SEXP, SEXP);
+extern SEXP c_ts_node_first_child_for_byte(SEXP, SEXP);
+extern SEXP c_ts_node_first_named_child_for_byte(SEXP, SEXP);
+extern SEXP c_ts_node_descendant_for_byte_range(SEXP, SEXP, SEXP);
+extern SEXP c_ts_node_named_descendant_for_byte_range(SEXP, SEXP, SEXP);
+extern SEXP c_ts_node_descendant_for_point_range(SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP c_ts_node_named_descendant_for_point_range(SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP c_ts_language_state_count(SEXP);
+extern SEXP c_ts_language_next_state(SEXP, SEXP, SEXP);
+extern SEXP c_ts_query_start_byte_for_pattern(SEXP, SEXP);
+extern SEXP c_ts_query_end_byte_for_pattern(SEXP, SEXP);
+extern SEXP c_ts_query_matches(SEXP, SEXP);
+extern SEXP c_ts_tree_included_ranges(SEXP);
+extern SEXP c_ts_tree_root_node_with_offset(SEXP, SEXP, SEXP, SEXP);
+
 static const R_CallMethodDef CallEntries[] = {
     /* Parser */
     {"c_ts_parser_new",              (DL_FUNC) &c_ts_parser_new,              0},
@@ -124,6 +146,27 @@ static const R_CallMethodDef CallEntries[] = {
     {"c_ts_language_field_count",    (DL_FUNC) &c_ts_language_field_count,    1},
     {"c_ts_language_field_name_for_id",(DL_FUNC) &c_ts_language_field_name_for_id,2},
     {"c_ts_language_field_id_for_name",(DL_FUNC) &c_ts_language_field_id_for_name,2},
+    /* Tail */
+    {"c_ts_node_symbol",             (DL_FUNC) &c_ts_node_symbol,             1},
+    {"c_ts_node_grammar_symbol",     (DL_FUNC) &c_ts_node_grammar_symbol,     1},
+    {"c_ts_node_parse_state",        (DL_FUNC) &c_ts_node_parse_state,        1},
+    {"c_ts_node_next_parse_state",   (DL_FUNC) &c_ts_node_next_parse_state,   1},
+    {"c_ts_node_child_by_field_id",  (DL_FUNC) &c_ts_node_child_by_field_id,  2},
+    {"c_ts_node_field_name_for_child",(DL_FUNC) &c_ts_node_field_name_for_child,2},
+    {"c_ts_node_field_name_for_named_child",(DL_FUNC) &c_ts_node_field_name_for_named_child,2},
+    {"c_ts_node_first_child_for_byte",(DL_FUNC) &c_ts_node_first_child_for_byte,2},
+    {"c_ts_node_first_named_child_for_byte",(DL_FUNC) &c_ts_node_first_named_child_for_byte,2},
+    {"c_ts_node_descendant_for_byte_range",(DL_FUNC) &c_ts_node_descendant_for_byte_range,3},
+    {"c_ts_node_named_descendant_for_byte_range",(DL_FUNC) &c_ts_node_named_descendant_for_byte_range,3},
+    {"c_ts_node_descendant_for_point_range",(DL_FUNC) &c_ts_node_descendant_for_point_range,5},
+    {"c_ts_node_named_descendant_for_point_range",(DL_FUNC) &c_ts_node_named_descendant_for_point_range,5},
+    {"c_ts_language_state_count",    (DL_FUNC) &c_ts_language_state_count,    1},
+    {"c_ts_language_next_state",     (DL_FUNC) &c_ts_language_next_state,     3},
+    {"c_ts_query_start_byte_for_pattern",(DL_FUNC) &c_ts_query_start_byte_for_pattern,2},
+    {"c_ts_query_end_byte_for_pattern",(DL_FUNC) &c_ts_query_end_byte_for_pattern,2},
+    {"c_ts_query_matches",           (DL_FUNC) &c_ts_query_matches,           2},
+    {"c_ts_tree_included_ranges",    (DL_FUNC) &c_ts_tree_included_ranges,    1},
+    {"c_ts_tree_root_node_with_offset",(DL_FUNC) &c_ts_tree_root_node_with_offset,4},
     {NULL, NULL, 0}
 };
 
