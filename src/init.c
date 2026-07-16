@@ -52,6 +52,20 @@ extern SEXP c_ts_query_capture_count(SEXP);
 extern SEXP c_ts_query_string_count(SEXP);
 extern SEXP c_ts_query_captures(SEXP, SEXP);
 
+/* Introspection */
+extern SEXP c_ts_node_has_error(SEXP);
+extern SEXP c_ts_node_is_error(SEXP);
+extern SEXP c_ts_node_is_missing(SEXP);
+extern SEXP c_ts_node_is_extra(SEXP);
+extern SEXP c_ts_node_descendant_count(SEXP);
+extern SEXP c_ts_node_grammar_type(SEXP);
+extern SEXP c_ts_language_symbol_count(SEXP);
+extern SEXP c_ts_language_symbol_name(SEXP, SEXP);
+extern SEXP c_ts_language_symbol_for_name(SEXP, SEXP, SEXP);
+extern SEXP c_ts_language_field_count(SEXP);
+extern SEXP c_ts_language_field_name_for_id(SEXP, SEXP);
+extern SEXP c_ts_language_field_id_for_name(SEXP, SEXP);
+
 static const R_CallMethodDef CallEntries[] = {
     /* Parser */
     {"c_ts_parser_new",              (DL_FUNC) &c_ts_parser_new,              0},
@@ -97,6 +111,19 @@ static const R_CallMethodDef CallEntries[] = {
     {"c_ts_query_capture_count",     (DL_FUNC) &c_ts_query_capture_count,     1},
     {"c_ts_query_string_count",      (DL_FUNC) &c_ts_query_string_count,      1},
     {"c_ts_query_captures",          (DL_FUNC) &c_ts_query_captures,          2},
+    /* Introspection */
+    {"c_ts_node_has_error",          (DL_FUNC) &c_ts_node_has_error,          1},
+    {"c_ts_node_is_error",           (DL_FUNC) &c_ts_node_is_error,           1},
+    {"c_ts_node_is_missing",         (DL_FUNC) &c_ts_node_is_missing,         1},
+    {"c_ts_node_is_extra",           (DL_FUNC) &c_ts_node_is_extra,           1},
+    {"c_ts_node_descendant_count",   (DL_FUNC) &c_ts_node_descendant_count,   1},
+    {"c_ts_node_grammar_type",       (DL_FUNC) &c_ts_node_grammar_type,       1},
+    {"c_ts_language_symbol_count",   (DL_FUNC) &c_ts_language_symbol_count,   1},
+    {"c_ts_language_symbol_name",    (DL_FUNC) &c_ts_language_symbol_name,    2},
+    {"c_ts_language_symbol_for_name",(DL_FUNC) &c_ts_language_symbol_for_name,3},
+    {"c_ts_language_field_count",    (DL_FUNC) &c_ts_language_field_count,    1},
+    {"c_ts_language_field_name_for_id",(DL_FUNC) &c_ts_language_field_name_for_id,2},
+    {"c_ts_language_field_id_for_name",(DL_FUNC) &c_ts_language_field_id_for_name,2},
     {NULL, NULL, 0}
 };
 

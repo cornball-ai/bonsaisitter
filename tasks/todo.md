@@ -24,12 +24,15 @@ All work is in the R layer and C return shapes. Decisions: core first, kill the
 - [x] kill ts_* names; port audit_translation/literals_and_calls; drop old prints
 - [x] equivalence smoke test vs treesitter
 
-## Phase 2 (query) -- next
-- [ ] C bindings to ts_query_* ; query, query_captures, query_matches + counts
+## Phase 2 (query) -- done
+- [x] C bindings to ts_query_* ; query, query_captures, counts, is_query, print
+- [x] query_captures byte-identical to treesitter (names + node texts)
+- [ ] query_matches, predicates (#eq?/#match?), range restriction, byte-for-pattern
 
-## Phase 3 (cursor, base R) -- deferred
-- [ ] TreeCursor via environment-of-closures (cur$goto_first_child()), no R6
-- [ ] tree_walk, node_walk
+## Phase 3 (cursor, base R) -- done
+- [x] TreeCursor via environment-of-closures (cur$goto_first_child()), no R6
+- [x] tree_walk, node_walk, is_tree_cursor, print
+- [ ] goto_last_child, goto_previous_sibling, reset, *_for_byte/point, field_id
 
 ## Runtime-only refactor -- done
 - [x] Remove bundled grammars (tree-sitter-r/python/cpp) from src/; runtime only
@@ -49,8 +52,12 @@ All work is in the R layer and C return shapes. Decisions: core first, kill the
 - [ ] Add man/ (roxygen) + README + CI to the grammar packages before CRAN
 - [ ] Only add treesitter.python/cpp to bonsaisitter Suggests once they are on CRAN
 
-## Phase 4 (introspection tail)
-- [ ] language_symbol_*/field_*/state*, node_descendant_*/grammar_*/has_error/...
+## Phase 4 (introspection tail) -- high-value subset done
+- [x] node_has_error/is_error/is_missing/is_extra, node_descendant_count
+- [x] node_grammar_type, node_language, text_parse
+- [x] language_symbol_count/name/for_name, language_field_count/name_for_id/id_for_name
+- [ ] node_child_by_field_id, node_field_name_for_child, node descendant-range lookups
+- [ ] node_grammar_symbol/symbol, node_parse_state/next_parse_state, node states
 - [ ] parser_reparse, parser_set_timeout, parser_set_included_ranges
 - [ ] tree_included_ranges, tree_root_node_with_offset
-- [ ] node_show_s_expression pretty printer, print methods parity
+- [ ] node_show_s_expression pretty printer (currently prints the raw s-expr)
