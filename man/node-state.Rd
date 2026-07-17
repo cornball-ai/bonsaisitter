@@ -1,12 +1,12 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{node-state}
-\alias{node-state}
+\alias{node_has_error}
 \alias{node_is_error}
 \alias{node_is_missing}
 \alias{node_is_extra}
 \title{Node error and state predicates}
 \usage{
-node-state(x)
+node_has_error(x)
 
 node_is_error(x)
 

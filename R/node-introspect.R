@@ -12,7 +12,7 @@
 #'
 #' @param x A `tree_sitter_node`.
 #' @return `TRUE` or `FALSE`.
-#' @name node-state
+#' @rdname node-state
 #' @export
 node_has_error <- function(x) {
     check_node(x)

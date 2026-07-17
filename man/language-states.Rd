@@ -1,10 +1,10 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{language-states}
-\alias{language-states}
+\alias{language_state_count}
 \alias{language_next_state}
 \title{Language parse states}
 \usage{
-language-states(x)
+language_state_count(x)
 
 language_next_state(x, state, symbol)
 }

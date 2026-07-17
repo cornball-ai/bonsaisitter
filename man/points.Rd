@@ -1,12 +1,12 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{points}
-\alias{points}
+\alias{point}
 \alias{point_row}
 \alias{point_column}
 \alias{is_point}
 \title{Points}
 \usage{
-points(row, column)
+point(row, column)
 
 point_row(x)
 

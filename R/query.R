@@ -19,6 +19,11 @@ new_query <- function(pointer, capture_names, source, language) {
 #' @param source A single string of query source (tree-sitter S-expression
 #'   pattern syntax).
 #' @return A `tree_sitter_query`.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   q <- query(treesitter.r::language(), "(call function: (identifier) @fn)")
+#'   query_capture_count(q)
+#' }
 #' @export
 query <- function(language, source) {
     check_language(language)
@@ -34,6 +39,13 @@ query <- function(language, source) {
 #' @param node A `tree_sitter_node` to search within.
 #' @return A list with `name` (character vector of capture names) and `node`
 #'   (list of `tree_sitter_node`s), one entry per capture in traversal order.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   lang <- treesitter.r::language()
+#'   node <- tree_root_node(text_parse("f(1); g(2)", lang))
+#'   q <- query(lang, "(call function: (identifier) @fn)")
+#'   vapply(query_captures(q, node)$node, node_text, character(1))
+#' }
 #' @export
 query_captures <- function(x, node) {
     check_query(x)
@@ -50,7 +62,7 @@ query_captures <- function(x, node) {
 #'
 #' @param x A `tree_sitter_query`.
 #' @return A single double.
-#' @name query-counts
+#' @rdname query-counts
 #' @export
 query_pattern_count <- function(x) {
     check_query(x)

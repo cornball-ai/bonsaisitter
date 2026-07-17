@@ -1,13 +1,13 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{node-navigation}
-\alias{node-navigation}
+\alias{node_parent}
 \alias{node_next_sibling}
 \alias{node_previous_sibling}
 \alias{node_next_named_sibling}
 \alias{node_previous_named_sibling}
 \title{Sibling and parent navigation}
 \usage{
-node-navigation(x)
+node_parent(x)
 
 node_next_sibling(x)
 

@@ -1,10 +1,10 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{tree-accessors}
-\alias{tree-accessors}
+\alias{tree_text}
 \alias{tree_language}
 \title{Tree accessors}
 \usage{
-tree-accessors(x)
+tree_text(x)
 
 tree_language(x)
 }

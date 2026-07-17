@@ -1,6 +1,6 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{ranges}
-\alias{ranges}
+\alias{range}
 \alias{range_start_byte}
 \alias{range_start_point}
 \alias{range_end_byte}
@@ -8,7 +8,7 @@
 \alias{is_range}
 \title{Ranges}
 \usage{
-ranges(start_byte, start_point, end_byte, end_point)
+range(start_byte, start_point, end_byte, end_point)
 
 range_start_byte(x)
 

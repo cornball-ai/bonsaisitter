@@ -1,11 +1,11 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{language-symbols}
-\alias{language-symbols}
+\alias{language_symbol_count}
 \alias{language_symbol_name}
 \alias{language_symbol_for_name}
 \title{Language symbols}
 \usage{
-language-symbols(x)
+language_symbol_count(x)
 
 language_symbol_name(x, symbol)
 

@@ -6,6 +6,7 @@ Authors@R: c(
     person("Troy", "Hernandez", role = c("aut", "cre"),
            email = "troy@cornball.ai",
            comment = c(ORCID = "0009-0005-4248-604X")),
+    person("cornball.ai", role = "cph"),
     person("Max", "Brunsfeld", role = "cph",
            comment = "tree-sitter C library"),
     person("Davis", "Vaughan", role = "cph",

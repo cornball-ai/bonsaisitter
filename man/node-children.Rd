@@ -1,10 +1,10 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{node-children}
-\alias{node-children}
+\alias{node_children}
 \alias{node_named_children}
 \title{All children of a node}
 \usage{
-node-children(x)
+node_children(x)
 
 node_named_children(x)
 }

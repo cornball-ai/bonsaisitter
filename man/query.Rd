@@ -17,3 +17,9 @@ A `tree_sitter_query`.
 \description{
 Compile a tree-sitter query
 }
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  q <- query(treesitter.r::language(), "(call function: (identifier) @fn)")
+  query_capture_count(q)
+}
+}

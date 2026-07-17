@@ -13,7 +13,7 @@
 #' @param name A node type name.
 #' @param named Whether to look up the named or anonymous variant.
 #' @return Counts and ids as a double; names as a string.
-#' @name language-symbols
+#' @rdname language-symbols
 #' @export
 language_symbol_count <- function(x) {
     check_language(x)
@@ -48,7 +48,7 @@ language_symbol_for_name <- function(x, name, named = TRUE) {
 #' @param id A field id.
 #' @param name A field name.
 #' @return Counts and ids as a double; names as a string.
-#' @name language-fields
+#' @rdname language-fields
 #' @export
 language_field_count <- function(x) {
     check_language(x)

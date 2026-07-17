@@ -16,3 +16,10 @@ A `tree_sitter_parser`.
 `parser()` constructs a parser from a `tree_sitter_language`. Use
 [parser_parse()] to parse text with it.
 }
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  p <- parser(treesitter.r::language())
+  tree <- parser_parse(p, "x <- f(1, 2)")
+  node_type(tree_root_node(tree))
+}
+}

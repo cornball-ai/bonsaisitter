@@ -14,3 +14,9 @@ A single string.
 \description{
 The type of a node
 }
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  node <- tree_root_node(text_parse("x + 1", treesitter.r::language()))
+  node_type(node)
+}
+}

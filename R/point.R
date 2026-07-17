@@ -16,7 +16,7 @@ new_point <- function(row, column) {
 #' @param row,column A 0-indexed row / column (single whole number).
 #' @param x A `tree_sitter_point`.
 #' @return `point()` a point; the accessors a double; `is_point()` a logical.
-#' @name points
+#' @rdname points
 #' @export
 point <- function(row, column) {
     row <- as.double(row)

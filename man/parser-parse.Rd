@@ -1,10 +1,10 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{parser-parse}
-\alias{parser-parse}
+\alias{parser_parse}
 \alias{parser_reparse}
 \title{Parse or reparse text}
 \usage{
-parser-parse(x, text, ...)
+parser_parse(x, text, ...)
 
 parser_reparse(x, text, tree, start_byte, start_point, old_end_byte,
                old_end_point, new_end_byte, new_end_point)

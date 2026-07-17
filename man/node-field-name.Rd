@@ -1,10 +1,10 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{node-field-name}
-\alias{node-field-name}
+\alias{node_field_name_for_child}
 \alias{node_field_name_for_named_child}
 \title{Field name for a child (1-indexed)}
 \usage{
-node-field-name(x, i)
+node_field_name_for_child(x, i)
 
 node_field_name_for_named_child(x, i)
 }
