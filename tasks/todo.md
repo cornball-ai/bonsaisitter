@@ -52,6 +52,11 @@ All work is in the R layer and C return shapes. Decisions: core first, kill the
 - [ ] Add man/ (roxygen) + README + CI to the grammar packages before CRAN
 - [ ] Only add treesitter.python/cpp to bonsaisitter Suggests once they are on CRAN
 
+## Grammar wish list
+- [ ] treesitter.rust (tree-sitter-rust; saber src_symbols consumer)
+- [ ] treesitter.javascript (tree-sitter-javascript; saber src_symbols consumer)
+- [ ] Add rust/javascript entries to grammar_language() once packages exist
+
 ## Phase 4 (introspection tail) -- done
 - [x] node state predicates, descendant_count, grammar_type, node_language, text_parse
 - [x] language symbol + field tables
