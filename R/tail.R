@@ -45,7 +45,8 @@ node_next_parse_state <- function(x) {
 #' @export
 node_child_by_field_id <- function(x, id) {
     check_node(x)
-    wrap_node(.Call(c_ts_node_child_by_field_id, node_raw(x), as.integer(id)), node_tree(x))
+    wrap_node(.Call(c_ts_node_child_by_field_id, node_raw(x), as.integer(id)),
+              node_tree(x))
 }
 
 #' Field name for a child (1-indexed)
@@ -79,14 +80,18 @@ node_field_name_for_named_child <- function(x, i) {
 #' @export
 node_first_child_for_byte <- function(x, byte) {
     check_node(x)
-    wrap_node(.Call(c_ts_node_first_child_for_byte, node_raw(x), as.integer(byte)), node_tree(x))
+    wrap_node(.Call(c_ts_node_first_child_for_byte, node_raw(x),
+                    as.integer(byte)),
+              node_tree(x))
 }
 
 #' @rdname node-locate
 #' @export
 node_first_named_child_for_byte <- function(x, byte) {
     check_node(x)
-    wrap_node(.Call(c_ts_node_first_named_child_for_byte, node_raw(x), as.integer(byte)), node_tree(x))
+    wrap_node(.Call(c_ts_node_first_named_child_for_byte, node_raw(x),
+                    as.integer(byte)),
+              node_tree(x))
 }
 
 #' @rdname node-locate
@@ -112,8 +117,10 @@ node_descendant_for_point_range <- function(x, start_point, end_point) {
     check_point(start_point, arg = "start_point")
     check_point(end_point, arg = "end_point")
     wrap_node(.Call(c_ts_node_descendant_for_point_range, node_raw(x),
-                    as.integer(point_row0(start_point)), as.integer(point_column0(start_point)),
-                    as.integer(point_row0(end_point)), as.integer(point_column0(end_point))),
+                    as.integer(point_row0(start_point)),
+                    as.integer(point_column0(start_point)),
+                    as.integer(point_row0(end_point)),
+                    as.integer(point_column0(end_point))),
               node_tree(x))
 }
 
@@ -124,8 +131,10 @@ node_named_descendant_for_point_range <- function(x, start_point, end_point) {
     check_point(start_point, arg = "start_point")
     check_point(end_point, arg = "end_point")
     wrap_node(.Call(c_ts_node_named_descendant_for_point_range, node_raw(x),
-                    as.integer(point_row0(start_point)), as.integer(point_column0(start_point)),
-                    as.integer(point_row0(end_point)), as.integer(point_column0(end_point))),
+                    as.integer(point_row0(start_point)),
+                    as.integer(point_column0(start_point)),
+                    as.integer(point_row0(end_point)),
+                    as.integer(point_column0(end_point))),
               node_tree(x))
 }
 
@@ -163,14 +172,16 @@ language_next_state <- function(x, state, symbol) {
 #' @export
 query_start_byte_for_pattern <- function(x, i) {
     check_query(x)
-    as.double(.Call(c_ts_query_start_byte_for_pattern, query_pointer0(x), as.integer(i) - 1L))
+    as.double(.Call(c_ts_query_start_byte_for_pattern, query_pointer0(x),
+                    as.integer(i) - 1L))
 }
 
 #' @rdname query-bytes
 #' @export
 query_end_byte_for_pattern <- function(x, i) {
     check_query(x)
-    as.double(.Call(c_ts_query_end_byte_for_pattern, query_pointer0(x), as.integer(i) - 1L))
+    as.double(.Call(c_ts_query_end_byte_for_pattern, query_pointer0(x),
+                    as.integer(i) - 1L))
 }
 
 #' Run a query and collect its matches
@@ -189,11 +200,8 @@ query_matches <- function(x, node) {
     tree <- node_tree(node)
     ms <- .Call(c_ts_query_matches, query_pointer0(x), node_raw(node))
     lapply(ms, function(m) {
-        list(
-            pattern = m[["pattern"]],
-            name = m[["name"]],
-            node = lapply(m[["node"]], new_node, tree = tree)
-        )
+        list(pattern = m[["pattern"]], name = m[["name"]],
+             node = lapply(m[["node"]], new_node, tree = tree))
     })
 }
 
@@ -210,12 +218,10 @@ tree_included_ranges <- function(x) {
     n <- length(info[[1L]])
     out <- vector("list", n)
     for (i in seq_len(n)) {
-        out[[i]] <- new_range(
-            info[[1L]][i],
-            new_point(info[[2L]][i], info[[3L]][i]),
-            info[[4L]][i],
-            new_point(info[[5L]][i], info[[6L]][i])
-        )
+        out[[i]] <- new_range(info[[1L]][i],
+                              new_point(info[[2L]][i], info[[3L]][i]),
+                              info[[4L]][i],
+                              new_point(info[[5L]][i], info[[6L]][i]))
     }
     out
 }
@@ -238,6 +244,7 @@ tree_root_node_with_offset <- function(x, byte, point) {
     padded <- paste0(strrep(" ", byte), tree_text0(x))
     x2 <- new_tree(tree_pointer(x), padded, tree_language0(x))
     raw <- .Call(c_ts_tree_root_node_with_offset, tree_pointer(x),
-                 as.integer(byte), as.integer(point_row0(point)), as.integer(point_column0(point)))
+                 as.integer(byte), as.integer(point_row0(point)),
+                 as.integer(point_column0(point)))
     new_node(raw, x2)
 }

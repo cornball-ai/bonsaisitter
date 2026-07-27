@@ -31,10 +31,8 @@ language_symbol_name <- function(x, symbol) {
 #' @export
 language_symbol_for_name <- function(x, name, named = TRUE) {
     check_language(x)
-    as.double(.Call(
-        c_ts_language_symbol_for_name,
-        language_pointer(x), as.character(name), as.logical(named)
-    ))
+    as.double(.Call(c_ts_language_symbol_for_name, language_pointer(x),
+                    as.character(name), as.logical(named)))
 }
 
 #' Language fields
@@ -66,5 +64,6 @@ language_field_name_for_id <- function(x, id) {
 #' @export
 language_field_id_for_name <- function(x, name) {
     check_language(x)
-    as.double(.Call(c_ts_language_field_id_for_name, language_pointer(x), as.character(name)))
+    as.double(.Call(c_ts_language_field_id_for_name, language_pointer(x),
+                    as.character(name)))
 }
