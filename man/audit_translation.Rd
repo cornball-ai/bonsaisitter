@@ -11,8 +11,9 @@ audit_translation(reference, port, lang = "r", normalize = TRUE)
 \item{port}{Character scalar of the port's source.}
 
 \item{lang}{Language of both (\code{"r"}, \code{"python"}, \code{"cpp"},
-\code{"go"}). Pass a length-2 vector to parse reference and port as
-different languages (e.g. \code{c("python", "r")}).}
+\code{"go"}, \code{"rust"}, \code{"javascript"}). Pass a length-2 vector
+to parse reference and port as different languages (e.g.
+\code{c("python", "r")}).}
 
 \item{normalize}{Logical; strip \code{L} suffixes and coerce so
 \code{4.0 == 4L == 4}.}

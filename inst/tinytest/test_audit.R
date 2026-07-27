@@ -37,6 +37,20 @@ if (requireNamespace("treesitter.cpp", quietly = TRUE)) {
   expect_equal(got$calls, "g")
 }
 
+if (requireNamespace("treesitter.rust", quietly = TRUE)) {
+  # -- Rust: integer_literal / float_literal --
+  got <- literals_and_calls("fn f() -> f64 { g(1, 2.5) }", "rust")
+  expect_equal(got$literals, c("1", "2.5"))
+  expect_equal(got$calls, "g")
+}
+
+if (requireNamespace("treesitter.javascript", quietly = TRUE)) {
+  # -- JavaScript folds every numeric literal into one node type --
+  got <- literals_and_calls("function f() { return g(1, 2.5); }", "javascript")
+  expect_equal(got$literals, c("1", "2.5"))
+  expect_equal(got$calls, "g")
+}
+
 if (requireNamespace("treesitter.go", quietly = TRUE)) {
   # -- Go splits ints and floats into separate node types --
   code <- "package main\n\nfunc f() float64 { return g(1, 2.5) }\n"

@@ -3,7 +3,8 @@
 # not listed in Suggests when they are not yet on CRAN.
 grammar_language <- function(lang) {
     pkg <- switch(lang, r = "treesitter.r", python = "treesitter.python",
-                  cpp = "treesitter.cpp", go = "treesitter.go")
+                  cpp = "treesitter.cpp", go = "treesitter.go",
+                  rust = "treesitter.rust", javascript = "treesitter.javascript")
     if (!requireNamespace(pkg, quietly = TRUE)) {
         stop(sprintf(
                      "The '%s' grammar package is required to parse %s code. Install it first.",
@@ -25,7 +26,10 @@ grammar_nodes <- function(lang) {
            go = list(
                      numbers = c("int_literal", "float_literal", "imaginary_literal"),
                      call = "call_expression"
-        )
+        ),
+           rust = list(numbers = c("integer_literal", "float_literal"),
+                       call = "call_expression"),
+           javascript = list(numbers = "number", call = "call_expression")
     )
 }
 
@@ -35,11 +39,12 @@ grammar_nodes <- function(lang) {
 #' numeric literal (integer / float) and the callee name of every call. The
 #' building block for \code{\link{audit_translation}}. Requires the grammar
 #' package for \code{lang} (\code{treesitter.r}, \code{treesitter.python},
-#' \code{treesitter.cpp}, or \code{treesitter.go}) to be installed.
+#' \code{treesitter.cpp}, \code{treesitter.go}, \code{treesitter.rust}, or
+#' \code{treesitter.javascript}) to be installed.
 #'
 #' @param code Character scalar of source code.
 #' @param lang Language: \code{"r"} (default), \code{"python"},
-#'   \code{"cpp"}, or \code{"go"}.
+#'   \code{"cpp"}, \code{"go"}, \code{"rust"}, or \code{"javascript"}.
 #'
 #' @return A list with \code{literals} and \code{calls} (character vectors,
 #'   in source order).
@@ -48,7 +53,9 @@ grammar_nodes <- function(lang) {
 #' literals_and_calls("f(1L, 2.5) + g(3)")
 #'
 #' @export
-literals_and_calls <- function(code, lang = c("r", "python", "cpp", "go")) {
+literals_and_calls <- function(code,
+                               lang = c("r", "python", "cpp", "go", "rust",
+                                        "javascript")) {
     lang <- match.arg(lang)
     nodes <- grammar_nodes(lang)
     root <- tree_root_node(parser_parse(parser(grammar_language(lang)), code))
@@ -87,8 +94,9 @@ literals_and_calls <- function(code, lang = c("r", "python", "cpp", "go")) {
 #' @param reference Character scalar of reference source.
 #' @param port Character scalar of the port's source.
 #' @param lang Language of both (\code{"r"}, \code{"python"}, \code{"cpp"},
-#'   \code{"go"}). Pass a length-2 vector to parse reference and port as
-#'   different languages (e.g. \code{c("python", "r")}).
+#'   \code{"go"}, \code{"rust"}, \code{"javascript"}). Pass a length-2 vector
+#'   to parse reference and port as different languages (e.g.
+#'   \code{c("python", "r")}).
 #' @param normalize Logical; strip \code{L} suffixes and coerce so
 #'   \code{4.0 == 4L == 4}.
 #'
