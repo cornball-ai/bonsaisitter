@@ -53,9 +53,14 @@ All work is in the R layer and C return shapes. Decisions: core first, kill the
 - [ ] Only add treesitter.python/cpp to bonsaisitter Suggests once they are on CRAN
 
 ## Grammar wish list
-- [ ] treesitter.rust (tree-sitter-rust; saber src_symbols consumer)
-- [ ] treesitter.javascript (tree-sitter-javascript; saber src_symbols consumer)
-- [ ] Add rust/javascript entries to grammar_language() once packages exist
+- [x] treesitter.rust (tree-sitter-rust; saber src_symbols consumer)
+- [x] treesitter.javascript (tree-sitter-javascript; saber src_symbols consumer)
+- [x] treesitter.go (tree-sitter-go v0.25.0, ABI 15, no external scanner);
+      public at cornball-ai/treesitter.go, parked in drat
+- [x] Add a go entry to grammar_language() + grammar_nodes()
+- [ ] Add rust/javascript entries to grammar_language() + grammar_nodes().
+      Node names: rust integer_literal/float_literal + call_expression,
+      javascript number + call_expression. Both packages already exist.
 
 ## Phase 4 (introspection tail) -- done
 - [x] node state predicates, descendant_count, grammar_type, node_language, text_parse
@@ -71,6 +76,12 @@ All work is in the R layer and C return shapes. Decisions: core first, kill the
 ## Full API parity reached
 91 exports; the only treesitter export not matched is TreeCursor (R6), replaced
 by the base-R tree_walk/node_walk cursor + is_tree_cursor. 169 tinytests.
+
+## Audit path notes
+- grammar_nodes() holds the per-grammar literal/call node names. tree-sitter node
+  types are grammar-specific, and a miss is silent (empty extraction reads as a
+  clean audit), so every language added here needs a test that proves the walk
+  matched something. cpp shipped broken for exactly this reason.
 
 ## Intentional deviations / minor gaps
 - query_matches returns a flat list(pattern,name,node), not treesitter's by-pattern nesting

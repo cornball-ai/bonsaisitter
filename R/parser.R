@@ -3,12 +3,13 @@
 
 transpose_ranges <- function(ranges) {
     list(
-        sb = vapply(ranges, range_start_byte0, double(1)),
-        sr = vapply(ranges, function(r) point_row0(range_start_point0(r)), double(1)),
-        sc = vapply(ranges, function(r) point_column0(range_start_point0(r)), double(1)),
-        eb = vapply(ranges, range_end_byte0, double(1)),
-        er = vapply(ranges, function(r) point_row0(range_end_point0(r)), double(1)),
-        ec = vapply(ranges, function(r) point_column0(range_end_point0(r)), double(1))
+         sb = vapply(ranges, range_start_byte0, double(1)),
+         sr = vapply(ranges, function(r) point_row0(range_start_point0(r)),
+                     double(1)),
+         sc = vapply(ranges, function(r) point_column0(range_start_point0(r)), double(1)),
+         eb = vapply(ranges, range_end_byte0, double(1)),
+         er = vapply(ranges, function(r) point_row0(range_end_point0(r)), double(1)),
+         ec = vapply(ranges, function(r) point_column0(range_end_point0(r)), double(1))
     )
 }
 
@@ -17,20 +18,20 @@ new_parser <- function(language, timeout = 0, included_ranges = list()) {
     ok <- .Call(c_ts_parser_set_language, pointer, language_pointer(language))
     if (!isTRUE(ok)) {
         stop(
-            "Failed to set the language on the parser (incompatible ABI version?).",
-            call. = FALSE
+             "Failed to set the language on the parser (incompatible ABI version?).",
+             call. = FALSE
         )
     }
     if (length(included_ranges) > 0) {
         tr <- transpose_ranges(included_ranges)
-        .Call(c_ts_parser_set_included_ranges, pointer,
-              tr$sb, tr$sr, tr$sc, tr$eb, tr$er, tr$ec)
+        .Call(c_ts_parser_set_included_ranges, pointer, tr$sb, tr$sr,
+              tr$sc, tr$eb, tr$er, tr$ec)
     }
     out <- list(
-        language = language,
-        timeout = timeout,
-        included_ranges = included_ranges,
-        pointer = pointer
+                language = language,
+                timeout = timeout,
+                included_ranges = included_ranges,
+                pointer = pointer
     )
     class(out) <- "tree_sitter_parser"
     out
@@ -91,8 +92,10 @@ parser_set_timeout <- function(x, timeout) {
 #' @export
 parser_set_included_ranges <- function(x, included_ranges) {
     check_parser(x)
-    if (!is.list(included_ranges) || !all(vapply(included_ranges, is_range, logical(1)))) {
-        stop("`included_ranges` must be a list of <tree_sitter_range>.", call. = FALSE)
+    if (!is.list(included_ranges) ||
+        !all(vapply(included_ranges, is_range, logical(1)))) {
+        stop("`included_ranges` must be a list of <tree_sitter_range>.",
+             call. = FALSE)
     }
     new_parser(x$language, x$timeout, included_ranges)
 }
@@ -116,30 +119,33 @@ parser_set_included_ranges <- function(x, included_ranges) {
 parser_parse <- function(x, text, ...) {
     check_parser(x)
     check_string(text)
-    pointer <- .Call(c_ts_parse, parser_pointer0(x), text, NULL, as.double(x$timeout))
+    pointer <- .Call(c_ts_parse, parser_pointer0(x), text, NULL,
+                     as.double(x$timeout))
     .Call(c_ts_tree_register_finalizer, pointer)
     new_tree(pointer, text, parser_language0(x))
 }
 
 #' @rdname parser-parse
 #' @export
-parser_reparse <- function(x, text, tree,
-                           start_byte, start_point,
-                           old_end_byte, old_end_point,
-                           new_end_byte, new_end_point) {
+parser_reparse <- function(x, text, tree, start_byte, start_point,
+                           old_end_byte, old_end_point, new_end_byte,
+                           new_end_point) {
     check_parser(x)
     check_string(text)
     check_tree(tree)
     check_point(start_point, arg = "start_point")
     check_point(old_end_point, arg = "old_end_point")
     check_point(new_end_point, arg = "new_end_point")
-    pointer <- .Call(
-        c_ts_reparse, parser_pointer0(x), text, tree_pointer(tree), as.double(x$timeout),
-        as.double(start_byte), as.double(old_end_byte), as.double(new_end_byte),
-        as.integer(point_row0(start_point)), as.integer(point_column0(start_point)),
-        as.integer(point_row0(old_end_point)), as.integer(point_column0(old_end_point)),
-        as.integer(point_row0(new_end_point)), as.integer(point_column0(new_end_point))
-    )
+    pointer <- .Call(c_ts_reparse, parser_pointer0(x), text,
+                     tree_pointer(tree), as.double(x$timeout),
+                     as.double(start_byte), as.double(old_end_byte),
+                     as.double(new_end_byte),
+                     as.integer(point_row0(start_point)),
+                     as.integer(point_column0(start_point)),
+                     as.integer(point_row0(old_end_point)),
+                     as.integer(point_column0(old_end_point)),
+                     as.integer(point_row0(new_end_point)),
+                     as.integer(point_column0(new_end_point)))
     .Call(c_ts_tree_register_finalizer, pointer)
     new_tree(pointer, text, parser_language0(x))
 }

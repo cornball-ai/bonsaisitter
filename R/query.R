@@ -3,12 +3,8 @@
 # implemented; query_captures returns all captures a pattern produces.
 
 new_query <- function(pointer, capture_names, source, language) {
-    out <- list(
-        pointer = pointer,
-        capture_names = capture_names,
-        source = source,
-        language = language
-    )
+    out <- list(pointer = pointer, capture_names = capture_names,
+                source = source, language = language)
     class(out) <- "tree_sitter_query"
     out
 }
@@ -52,10 +48,8 @@ query_captures <- function(x, node) {
     check_node(node)
     out <- .Call(c_ts_query_captures, query_pointer0(x), node_raw(node))
     tree <- node_tree(node)
-    list(
-        name = out[["name"]],
-        node = lapply(out[["node"]], new_node, tree = tree)
-    )
+    list(name = out[["name"]],
+         node = lapply(out[["node"]], new_node, tree = tree))
 }
 
 #' Query counts
@@ -95,7 +89,8 @@ is_query <- function(x) {
 #' @export
 print.tree_sitter_query <- function(x, ...) {
     cat_line("<tree_sitter_query>")
-    cat_line(sprintf("Captures: %s", paste(.subset2(x, "capture_names"), collapse = ", ")))
+    cat_line(sprintf("Captures: %s",
+                     paste(.subset2(x, "capture_names"), collapse = ", ")))
     invisible(x)
 }
 
