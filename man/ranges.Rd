@@ -21,20 +21,27 @@ range_end_point(x)
 is_range(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_range`.}
+\item{x}{A \code{tree_sitter_range}.}
 
 \item{start_byte,end_byte}{Single whole numbers.}
 
-\item{start_point,end_point}{`tree_sitter_point` objects.}
+\item{start_point,end_point}{\code{tree_sitter_point} objects.}
 }
 \value{
-`range()` a range; accessors their component; `is_range()` a logical.
+\code{range()} a range; accessors their component; \code{is_range()} a logical.
 }
 \description{
-- `range()` creates a tree-sitter range from a start/end byte and point.
-- `range_start_byte()`, `range_start_point()`, `range_end_byte()`, and
-  `range_end_point()` access the components.
-- `is_range()` tests for a range.
+- \code{range()} creates a tree-sitter range from a start/end byte and point.
+- \code{range_start_byte()}, \code{range_start_point()}, \code{range_end_byte()}, and
+  \code{range_end_point()} access the components.
+- \code{is_range()} tests for a range.
 
 All bytes and points are 0-indexed.
+}
+\examples{
+r <- range(0, point(0, 0), 6, point(0, 6))
+r
+range_end_byte(r)
+range_end_point(r)
+is_range(r)
 }

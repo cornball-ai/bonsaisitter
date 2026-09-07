@@ -6,11 +6,16 @@
 language_name(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_language`.}
+\item{x}{A \code{tree_sitter_language}.}
 }
 \value{
 A single string.
 }
 \description{
 The name of a language
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  language_name(treesitter.r::language())
+}
 }

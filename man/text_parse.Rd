@@ -8,14 +8,14 @@ text_parse(x, language)
 \arguments{
 \item{x}{A single string to parse.}
 
-\item{language}{A `tree_sitter_language`.}
+\item{language}{A \code{tree_sitter_language}.}
 }
 \value{
-A `tree_sitter_tree`.
+A \code{tree_sitter_tree}.
 }
 \description{
-`text_parse()` is a convenience wrapper that builds a parser for `language`
-and parses `x` with it, returning the tree directly.
+\code{text_parse()} is a convenience wrapper that builds a parser for \code{language}
+and parses \code{x} with it, returning the tree directly.
 }
 \examples{
 if (requireNamespace("treesitter.r", quietly = TRUE)) {

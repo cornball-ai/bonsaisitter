@@ -4,18 +4,26 @@
 
 #' The name of a language
 #'
-#' @param x A `tree_sitter_language`.
+#' @param x A \code{tree_sitter_language}.
 #' @return A single string.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   language_name(treesitter.r::language())
+#' }
 #' @export
 language_name <- function(x) {
     check_language(x)
     .subset2(x, "name")
 }
 
-#' Is `x` a language?
+#' Is \code{x} a language?
 #'
 #' @param x An object.
-#' @return `TRUE` or `FALSE`.
+#' @return \code{TRUE} or \code{FALSE}.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   is_language(treesitter.r::language())
+#' }
 #' @export
 is_language <- function(x) {
     inherits(x, "tree_sitter_language")

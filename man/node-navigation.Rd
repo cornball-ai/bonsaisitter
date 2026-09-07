@@ -18,11 +18,19 @@ node_next_named_sibling(x)
 node_previous_named_sibling(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_node`.}
+\item{x}{A \code{tree_sitter_node}.}
 }
 \value{
-A `tree_sitter_node`, or `NULL`.
+A \code{tree_sitter_node}, or \code{NULL}.
 }
 \description{
 Sibling and parent navigation
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  tree <- text_parse("x <- 1", treesitter.r::language())
+  lhs <- node_child_by_field_name(node_child(tree_root_node(tree), 1), "lhs")
+  c(node_type(node_parent(lhs)), node_type(node_next_sibling(lhs)),
+    node_type(node_next_named_sibling(lhs)))
+}
 }

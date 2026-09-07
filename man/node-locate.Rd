@@ -21,15 +21,23 @@ node_descendant_for_point_range(x, start_point, end_point)
 node_named_descendant_for_point_range(x, start_point, end_point)
 }
 \arguments{
-\item{x}{A `tree_sitter_node`.}
+\item{x}{A \code{tree_sitter_node}.}
 
 \item{byte,start,end}{0-indexed byte offsets.}
 
-\item{start_point,end_point}{`tree_sitter_point` objects.}
+\item{start_point,end_point}{\code{tree_sitter_point} objects.}
 }
 \value{
-A `tree_sitter_node`, or `NULL`.
+A \code{tree_sitter_node}, or \code{NULL}.
 }
 \description{
 Locate nodes by byte or point
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  root <- tree_root_node(text_parse("x <- 1\ny <- 2", treesitter.r::language()))
+  node_text(node_first_named_child_for_byte(root, 7))
+  node_text(node_descendant_for_byte_range(root, 7, 7))
+  node_text(node_descendant_for_point_range(root, point(1, 0), point(1, 0)))
+}
 }

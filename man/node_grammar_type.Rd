@@ -6,12 +6,18 @@
 node_grammar_type(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_node`.}
+\item{x}{A \code{tree_sitter_node}.}
 }
 \value{
 A single string.
 }
 \description{
-Like [node_type()], but returns the type as written in the grammar, ignoring
+Like \code{\link{node_type}}, but returns the type as written in the grammar, ignoring
 aliases.
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  node <- tree_root_node(text_parse("x <- 1", treesitter.r::language()))
+  node_grammar_type(node)
+}
 }

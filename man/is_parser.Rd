@@ -1,7 +1,7 @@
 % tinyrox says don't edit this manually, but it can't stop you!
 \name{is_parser}
 \alias{is_parser}
-\title{Is `x` a parser?}
+\title{Is \code{x} a parser?}
 \usage{
 is_parser(x)
 }
@@ -9,8 +9,13 @@ is_parser(x)
 \item{x}{An object.}
 }
 \value{
-`TRUE` or `FALSE`.
+\code{TRUE} or \code{FALSE}.
 }
 \description{
-Is `x` a parser?
+Is \code{x} a parser?
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  is_parser(parser(treesitter.r::language()))
+}
 }

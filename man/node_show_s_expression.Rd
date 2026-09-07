@@ -6,11 +6,17 @@
 node_show_s_expression(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_node`.}
+\item{x}{A \code{tree_sitter_node}.}
 }
 \value{
-`x`, invisibly, called for its side effect of printing.
+\code{x}, invisibly, called for its side effect of printing.
 }
 \description{
 Show a node's s-expression
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  node <- tree_root_node(text_parse("x <- 1", treesitter.r::language()))
+  node_show_s_expression(node)
+}
 }

@@ -15,16 +15,24 @@ node_is_missing(x)
 node_is_extra(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_node`.}
+\item{x}{A \code{tree_sitter_node}.}
 }
 \value{
-`TRUE` or `FALSE`.
+\code{TRUE} or \code{FALSE}.
 }
 \description{
-- `node_has_error()` is `TRUE` if the node or any descendant is an error or
+- \code{node_has_error()} is \code{TRUE} if the node or any descendant is an error or
   is missing.
-- `node_is_error()` is `TRUE` if the node itself is a syntax error.
-- `node_is_missing()` is `TRUE` if the node is inserted by the parser to
+- \code{node_is_error()} is \code{TRUE} if the node itself is a syntax error.
+- \code{node_is_missing()} is \code{TRUE} if the node is inserted by the parser to
   recover from an error.
-- `node_is_extra()` is `TRUE` if the node is "extra" (e.g. a comment).
+- \code{node_is_extra()} is \code{TRUE} if the node is "extra" (e.g. a comment).
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  lang <- treesitter.r::language()
+  ok <- tree_root_node(text_parse("x <- 1", lang))
+  broken <- tree_root_node(text_parse("x <- ", lang))
+  c(node_has_error(ok), node_has_error(broken))
+}
 }

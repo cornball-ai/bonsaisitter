@@ -9,12 +9,19 @@ tree_text(x)
 tree_language(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_tree`.}
+\item{x}{A \code{tree_sitter_tree}.}
 }
 \value{
-`tree_text()` a string; `tree_language()` a language.
+\code{tree_text()} a string; \code{tree_language()} a language.
 }
 \description{
-- `tree_text()` returns the text the tree was parsed with.
-- `tree_language()` returns the tree's `tree_sitter_language`.
+- \code{tree_text()} returns the text the tree was parsed with.
+- \code{tree_language()} returns the tree's \code{tree_sitter_language}.
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  tree <- text_parse("x <- 1", treesitter.r::language())
+  tree_text(tree)
+  language_name(tree_language(tree))
+}
 }

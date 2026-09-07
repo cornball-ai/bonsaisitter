@@ -10,17 +10,23 @@ new_range <- function(start_byte, start_point, end_byte, end_point) {
 #' Ranges
 #'
 #' @description
-#' - `range()` creates a tree-sitter range from a start/end byte and point.
-#' - `range_start_byte()`, `range_start_point()`, `range_end_byte()`, and
-#'   `range_end_point()` access the components.
-#' - `is_range()` tests for a range.
+#' - \code{range()} creates a tree-sitter range from a start/end byte and point.
+#' - \code{range_start_byte()}, \code{range_start_point()}, \code{range_end_byte()}, and
+#'   \code{range_end_point()} access the components.
+#' - \code{is_range()} tests for a range.
 #'
 #' All bytes and points are 0-indexed.
 #'
 #' @param start_byte,end_byte Single whole numbers.
-#' @param start_point,end_point `tree_sitter_point` objects.
-#' @param x A `tree_sitter_range`.
-#' @return `range()` a range; accessors their component; `is_range()` a logical.
+#' @param start_point,end_point \code{tree_sitter_point} objects.
+#' @param x A \code{tree_sitter_range}.
+#' @return \code{range()} a range; accessors their component; \code{is_range()} a logical.
+#' @examples
+#' r <- range(0, point(0, 0), 6, point(0, 6))
+#' r
+#' range_end_byte(r)
+#' range_end_point(r)
+#' is_range(r)
 #' @rdname ranges
 #' @export
 range <- function(start_byte, start_point, end_byte, end_point) {

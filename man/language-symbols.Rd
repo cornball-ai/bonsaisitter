@@ -12,7 +12,7 @@ language_symbol_name(x, symbol)
 language_symbol_for_name(x, name, named = TRUE)
 }
 \arguments{
-\item{x}{A `tree_sitter_language`.}
+\item{x}{A \code{tree_sitter_language}.}
 
 \item{symbol}{A symbol id.}
 
@@ -24,7 +24,14 @@ language_symbol_for_name(x, name, named = TRUE)
 Counts and ids as a double; names as a string.
 }
 \description{
-- `language_symbol_count()` is the number of distinct node types.
-- `language_symbol_name()` maps a symbol id to its name.
-- `language_symbol_for_name()` maps a name to its symbol id.
+- \code{language_symbol_count()} is the number of distinct node types.
+- \code{language_symbol_name()} maps a symbol id to its name.
+- \code{language_symbol_for_name()} maps a name to its symbol id.
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  lang <- treesitter.r::language()
+  language_symbol_count(lang)
+  language_symbol_name(lang, language_symbol_for_name(lang, "identifier"))
+}
 }

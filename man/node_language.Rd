@@ -6,11 +6,17 @@
 node_language(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_node`.}
+\item{x}{A \code{tree_sitter_node}.}
 }
 \value{
-A `tree_sitter_language`.
+A \code{tree_sitter_language}.
 }
 \description{
 The language of a node
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  node <- tree_root_node(text_parse("x <- 1", treesitter.r::language()))
+  language_name(node_language(node))
+}
 }

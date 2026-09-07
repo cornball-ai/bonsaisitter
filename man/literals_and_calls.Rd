@@ -3,8 +3,10 @@
 \alias{literals_and_calls}
 \title{Extract numeric literals and call names from source code}
 \usage{
-literals_and_calls(code,
-                   lang = c("r", "python", "cpp", "go", "rust", "javascript"))
+literals_and_calls(
+  code,
+  lang = c("r", "python", "cpp", "go", "rust", "javascript")
+)
 }
 \arguments{
 \item{code}{Character scalar of source code.}
@@ -23,4 +25,10 @@ building block for \code{\link{audit_translation}}. Requires the grammar
 package for \code{lang} (\code{treesitter.r}, \code{treesitter.python},
 \code{treesitter.cpp}, \code{treesitter.go}, \code{treesitter.rust}, or
 \code{treesitter.javascript}) to be installed.
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  literals_and_calls("f(1L, 2.5) + g(3)")
+}
+
 }

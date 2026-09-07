@@ -49,8 +49,10 @@ grammar_nodes <- function(lang) {
 #' @return A list with \code{literals} and \code{calls} (character vectors,
 #'   in source order).
 #'
-#' @examplesIf requireNamespace("treesitter.r", quietly = TRUE)
-#' literals_and_calls("f(1L, 2.5) + g(3)")
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   literals_and_calls("f(1L, 2.5) + g(3)")
+#' }
 #'
 #' @export
 literals_and_calls <- function(code,
@@ -104,8 +106,10 @@ literals_and_calls <- function(code,
 #'   \code{literals_extra} (in port, not reference), and the full
 #'   \code{reference} / \code{port} extractions.
 #'
-#' @examplesIf requireNamespace("treesitter.r", quietly = TRUE)
-#' audit_translation("clamp(x, 1e-10); y * 8", "pmax(x, 1e-10); y * 8")
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   audit_translation("clamp(x, 1e-10); y * 8", "pmax(x, 1e-10); y * 8")
+#' }
 #'
 #' @export
 audit_translation <- function(reference, port, lang = "r", normalize = TRUE) {

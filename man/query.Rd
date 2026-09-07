@@ -6,13 +6,13 @@
 query(language, source)
 }
 \arguments{
-\item{language}{A `tree_sitter_language`.}
+\item{language}{A \code{tree_sitter_language}.}
 
 \item{source}{A single string of query source (tree-sitter S-expression
 pattern syntax).}
 }
 \value{
-A `tree_sitter_query`.
+A \code{tree_sitter_query}.
 }
 \description{
 Compile a tree-sitter query

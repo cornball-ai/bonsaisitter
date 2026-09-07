@@ -39,12 +39,12 @@ new_parser <- function(language, timeout = 0, included_ranges = list()) {
 
 #' Create a parser
 #'
-#' `parser()` constructs a parser from a `tree_sitter_language`. Use
-#' [parser_parse()] to parse text with it.
+#' \code{parser()} constructs a parser from a \code{tree_sitter_language}. Use
+#' \code{\link{parser_parse}} to parse text with it.
 #'
-#' @param language A `tree_sitter_language`, e.g. from a grammar package like
-#'   `treesitter.r::language()`.
-#' @return A `tree_sitter_parser`.
+#' @param language A \code{tree_sitter_language}, e.g. from a grammar package like
+#'   \code{treesitter.r::language()}.
+#' @return A \code{tree_sitter_parser}.
 #' @examples
 #' if (requireNamespace("treesitter.r", quietly = TRUE)) {
 #'   p <- parser(treesitter.r::language())
@@ -61,16 +61,25 @@ parser <- function(language) {
 #'
 #' @description
 #' Each returns a new parser with one setting changed.
-#' - `parser_set_language()` sets the language.
-#' - `parser_set_timeout()` sets a parse timeout in microseconds (0 clears it).
-#' - `parser_set_included_ranges()` restricts parsing to a list of [range()]s
+#' - \code{parser_set_language()} sets the language.
+#' - \code{parser_set_timeout()} sets a parse timeout in microseconds (0 clears it).
+#' - \code{parser_set_included_ranges()} restricts parsing to a list of \code{\link{range}}s
 #'   (an empty list clears the restriction).
 #'
-#' @param x A `tree_sitter_parser`.
-#' @param language A `tree_sitter_language`.
+#' @param x A \code{tree_sitter_parser}.
+#' @param language A \code{tree_sitter_language}.
 #' @param timeout A single whole number of microseconds.
-#' @param included_ranges A list of `tree_sitter_range` objects.
-#' @return A new `tree_sitter_parser`.
+#' @param included_ranges A list of \code{tree_sitter_range} objects.
+#' @return A new \code{tree_sitter_parser}.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   lang <- treesitter.r::language()
+#'   p <- parser_set_timeout(parser(lang), 1e6)
+#'   p <- parser_set_language(p, lang)
+#'   first_line <- range(0, point(0, 0), 6, point(0, 6))
+#'   p <- parser_set_included_ranges(p, list(first_line))
+#'   node_text(tree_root_node(parser_parse(p, "x <- 1\ny <- 2")))
+#' }
 #' @rdname parser-adjust
 #' @export
 parser_set_language <- function(x, language) {
@@ -103,17 +112,26 @@ parser_set_included_ranges <- function(x, included_ranges) {
 #' Parse or reparse text
 #'
 #' @description
-#' - `parser_parse()` parses `text` and returns a `tree_sitter_tree`.
-#' - `parser_reparse()` performs an incremental reparse of a slightly edited
-#'   `text`, reusing the old `tree`. All bytes and points are 0-indexed.
+#' - \code{parser_parse()} parses \code{text} and returns a \code{tree_sitter_tree}.
+#' - \code{parser_reparse()} performs an incremental reparse of a slightly edited
+#'   \code{text}, reusing the old \code{tree}. All bytes and points are 0-indexed.
 #'
-#' @param x A `tree_sitter_parser`.
+#' @param x A \code{tree_sitter_parser}.
 #' @param text A single string to parse.
-#' @param tree The original `tree_sitter_tree` from `parser_parse()`.
+#' @param tree The original \code{tree_sitter_tree} from \code{parser_parse()}.
 #' @param start_byte,old_end_byte,new_end_byte Edit byte offsets.
-#' @param start_point,old_end_point,new_end_point Edit `tree_sitter_point`s.
+#' @param start_point,old_end_point,new_end_point Edit \code{tree_sitter_point}s.
 #' @param ... Unused.
-#' @return A `tree_sitter_tree`.
+#' @return A \code{tree_sitter_tree}.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   p <- parser(treesitter.r::language())
+#'   tree <- parser_parse(p, "x <- 1")
+#'   # Replace the "1" at byte 5 with "42", then reparse incrementally.
+#'   tree2 <- parser_reparse(p, "x <- 42", tree, 5, point(0, 5), 6, point(0, 6),
+#'                           7, point(0, 7))
+#'   node_text(tree_root_node(tree2))
+#' }
 #' @rdname parser-parse
 #' @export
 parser_parse <- function(x, text, ...) {
@@ -150,10 +168,14 @@ parser_reparse <- function(x, text, tree, start_byte, start_point,
     new_tree(pointer, text, parser_language0(x))
 }
 
-#' Is `x` a parser?
+#' Is \code{x} a parser?
 #'
 #' @param x An object.
-#' @return `TRUE` or `FALSE`.
+#' @return \code{TRUE} or \code{FALSE}.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   is_parser(parser(treesitter.r::language()))
+#' }
 #' @export
 is_parser <- function(x) {
     inherits(x, "tree_sitter_parser")

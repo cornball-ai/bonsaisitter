@@ -9,11 +9,19 @@ node_children(x)
 node_named_children(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_node`.}
+\item{x}{A \code{tree_sitter_node}.}
 }
 \value{
-A list of `tree_sitter_node`s.
+A list of \code{tree_sitter_node}s.
 }
 \description{
 All children of a node
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  tree <- text_parse("x <- 1", treesitter.r::language())
+  expr <- node_child(tree_root_node(tree), 1)
+  vapply(node_children(expr), node_type, character(1))
+  vapply(node_named_children(expr), node_type, character(1))
+}
 }

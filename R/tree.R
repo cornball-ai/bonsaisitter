@@ -8,8 +8,8 @@ new_tree <- function(pointer, text, language) {
 
 #' Retrieve the root node of a tree
 #'
-#' @param x A `tree_sitter_tree`.
-#' @return A `tree_sitter_node`.
+#' @param x A \code{tree_sitter_tree}.
+#' @return A \code{tree_sitter_node}.
 #' @examples
 #' if (requireNamespace("treesitter.r", quietly = TRUE)) {
 #'   tree <- text_parse("x <- 1", treesitter.r::language())
@@ -25,11 +25,17 @@ tree_root_node <- function(x) {
 #' Tree accessors
 #'
 #' @description
-#' - `tree_text()` returns the text the tree was parsed with.
-#' - `tree_language()` returns the tree's `tree_sitter_language`.
+#' - \code{tree_text()} returns the text the tree was parsed with.
+#' - \code{tree_language()} returns the tree's \code{tree_sitter_language}.
 #'
-#' @param x A `tree_sitter_tree`.
-#' @return `tree_text()` a string; `tree_language()` a language.
+#' @param x A \code{tree_sitter_tree}.
+#' @return \code{tree_text()} a string; \code{tree_language()} a language.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   tree <- text_parse("x <- 1", treesitter.r::language())
+#'   tree_text(tree)
+#'   language_name(tree_language(tree))
+#' }
 #' @rdname tree-accessors
 #' @export
 tree_text <- function(x) {
@@ -44,10 +50,14 @@ tree_language <- function(x) {
     tree_language0(x)
 }
 
-#' Is `x` a tree?
+#' Is \code{x} a tree?
 #'
 #' @param x An object.
-#' @return `TRUE` or `FALSE`.
+#' @return \code{TRUE} or \code{FALSE}.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   is_tree(text_parse("x <- 1", treesitter.r::language()))
+#' }
 #' @export
 is_tree <- function(x) {
     inherits(x, "tree_sitter_tree")
