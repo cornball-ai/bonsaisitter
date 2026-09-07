@@ -1,4 +1,4 @@
-# bonsaisitter (development version)
+# bonsaisitter 0.1.1
 
 First CRAN submission.
 
