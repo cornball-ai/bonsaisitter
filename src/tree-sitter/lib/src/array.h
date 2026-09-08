@@ -13,13 +13,9 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4101)
-#elif defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
+/* Patched for CRAN: upstream wraps this header in pragmas that silence
+   -Wunused-variable (and MSVC C4101). CRAN policy disallows disabling
+   diagnostics; the header compiles cleanly without them. */
 
 #define Array(T)       \
   struct {             \
@@ -316,12 +312,6 @@ static inline void *_array__splice(void *self_contents, uint32_t *size, uint32_t
 /// Helper macro for the `_sorted_by` routines below. This takes the left (existing)
 /// parameter by reference in order to work with the generic sorting function above.
 #define _compare_int(a, b) ((int)*(a) - (int)(b))
-
-#ifdef _MSC_VER
-#pragma warning(pop)
-#elif defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
-#endif
 
 #ifdef __cplusplus
 }

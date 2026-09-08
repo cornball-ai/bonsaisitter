@@ -1,6 +1,17 @@
+# bonsaisitter (development version)
+
+Resubmission after CRAN's incoming pretest of 0.1.1, which stopped on the
+"pragmas suppressing diagnostics" NOTE.
+
+- Remove the `#pragma GCC diagnostic ignored` blocks, and their MSVC
+  counterparts, from the bundled `lib/src/array.h` and
+  `lib/src/wasm_store.c`. Both files compile without warnings without them.
+  Recorded as patch 3 in `src/tree-sitter/PATCHES.md`. No other source
+  changed.
+
 # bonsaisitter 0.1.1
 
-First CRAN submission.
+First CRAN submission; stopped by the incoming pretest on the pragma NOTE.
 
 - Every exported function now has a runnable example. Examples that need a
   grammar are guarded on the 'treesitter.r' package.
