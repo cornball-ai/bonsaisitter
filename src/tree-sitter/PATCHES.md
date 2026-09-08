@@ -6,8 +6,9 @@ between the v0.26.6 and v0.26.7 tags: `lib/src/query.c` matches v0.26.6 and
 `lib/src/parser.c` matches v0.26.7. Only `api.h` lives under
 `lib/include/tree_sitter/`, as upstream.
 
-Both patches exist because `R CMD check` rejects compiled code that can
-call `abort()` or write to `stderr`.
+Patches 1 and 2 exist because `R CMD check` rejects compiled code that can
+call `abort()` or write to `stderr`. Patch 3 exists because CRAN policy
+disallows pragmas that disable compiler diagnostics.
 
 1. `lib/src/alloc.c`: the three default allocators no longer call
    `fprintf(stderr, ...)` and `abort()` on allocation failure; they return
@@ -19,5 +20,13 @@ call `abort()` or write to `stderr`.
    returns `false` instead of defaulting to `stderr`. The function is a
    debugging aid that bonsaisitter does not call.
 
+3. `lib/src/array.h` and `lib/src/wasm_store.c`: the `#ifdef _MSC_VER` /
+   `#pragma GCC diagnostic ignored` blocks (push and pop) are removed.
+   array.h silenced `-Wunused-variable`, wasm_store.c silenced
+   `-Wunused-parameter` around the wasm implementation, which bonsaisitter
+   never compiles. Both files build without any warning under
+   `-Wall -pedantic -Wextra` without the pragmas. CRAN's incoming pretest
+   stops on the "pragmas suppressing diagnostics" NOTE.
+
 Re-vendoring: copy upstream `lib/` over `src/tree-sitter/lib/`, re-apply
-the two hunks above, and update the version here and in `inst/COPYRIGHTS`.
+the hunks above, and update the version here and in `inst/COPYRIGHTS`.

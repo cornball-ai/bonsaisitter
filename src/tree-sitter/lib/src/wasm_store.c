@@ -16,13 +16,10 @@
 #include <wasm.h>
 #include <wasmtime.h>
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4100)
-#elif defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif
+/* Patched for CRAN: upstream wraps the wasm implementation in pragmas that
+   silence -Wunused-parameter (and MSVC C4100). CRAN policy disallows
+   disabling diagnostics; this block is not compiled by bonsaisitter
+   (TREE_SITTER_FEATURE_WASM is never defined). */
 
 #define array_len(a) (sizeof(a) / sizeof(a[0]))
 
@@ -1816,12 +1813,6 @@ void ts_wasm_language_release(const TSLanguage *self) {
     ts_free((void *)self);
   }
 }
-
-#ifdef _MSC_VER
-#pragma warning(pop)
-#elif defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
-#endif
 
 #else
 

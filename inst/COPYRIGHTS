@@ -10,8 +10,8 @@ It bundles the tree-sitter C library (https://github.com/tree-sitter/tree-sitter
 under src/tree-sitter/: the lib/ subtree only, that is the runtime headers
 and sources, from a 0.26-series development snapshot between the v0.26.6
 and v0.26.7 tags (lib/src/query.c matches v0.26.6, lib/src/parser.c matches
-v0.26.7). Those sources compile into the package on every platform. The two
-local changes to them are listed in src/tree-sitter/PATCHES.md.
+v0.26.7). Those sources compile into the package on every platform. The local
+changes to them are listed in src/tree-sitter/PATCHES.md.
 
 tree-sitter is MIT-licensed; the full text is src/tree-sitter/LICENSE.
 
