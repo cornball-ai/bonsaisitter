@@ -1,4 +1,4 @@
-# bonsaisitter (development version)
+# bonsaisitter 0.1.2
 
 Resubmission after CRAN's incoming pretest of 0.1.1, which stopped on the
 "pragmas suppressing diagnostics" NOTE.
