@@ -12,11 +12,17 @@ query_capture_count(x)
 query_string_count(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_query`.}
+\item{x}{A \code{tree_sitter_query}.}
 }
 \value{
 A single double.
 }
 \description{
 Query counts
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  q <- query(treesitter.r::language(), "(call function: (identifier) @fn)")
+  c(query_pattern_count(q), query_capture_count(q), query_string_count(q))
+}
 }

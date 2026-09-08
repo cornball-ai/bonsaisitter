@@ -6,15 +6,15 @@
 #' Walk a tree or node with a cursor
 #'
 #' @description
-#' `tree_walk()` and `node_walk()` create a `tree_sitter_tree_cursor`, a mutable
+#' \code{tree_walk()} and \code{node_walk()} create a \code{tree_sitter_tree_cursor}, a mutable
 #' cursor for efficient traversal. Navigate with its methods:
-#' `cursor$goto_first_child()`, `cursor$goto_next_sibling()`,
-#' `cursor$goto_parent()` (each returns `TRUE`/`FALSE`), and read state with
-#' `cursor$node()`, `cursor$field_name()`, and `cursor$depth()`.
+#' \code{cursor$goto_first_child()}, \code{cursor$goto_next_sibling()},
+#' \code{cursor$goto_parent()} (each returns \code{TRUE}/\code{FALSE}), and read state with
+#' \code{cursor$node()}, \code{cursor$field_name()}, and \code{cursor$depth()}.
 #'
-#' @param x A `tree_sitter_tree`.
-#' @param node A `tree_sitter_node`.
-#' @return A `tree_sitter_tree_cursor`.
+#' @param x A \code{tree_sitter_tree}.
+#' @param node A \code{tree_sitter_node}.
+#' @return A \code{tree_sitter_tree_cursor}.
 #' @examples
 #' if (requireNamespace("treesitter.r", quietly = TRUE)) {
 #'   cursor <- tree_walk(text_parse("x <- 1", treesitter.r::language()))
@@ -58,10 +58,14 @@ node_walk <- function(node) {
     self
 }
 
-#' Is `x` a tree cursor?
+#' Is \code{x} a tree cursor?
 #'
 #' @param x An object.
-#' @return `TRUE` or `FALSE`.
+#' @return \code{TRUE} or \code{FALSE}.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   is_tree_cursor(tree_walk(text_parse("x <- 1", treesitter.r::language())))
+#' }
 #' @export
 is_tree_cursor <- function(x) {
     inherits(x, "tree_sitter_tree_cursor")

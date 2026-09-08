@@ -6,10 +6,10 @@
 tree_root_node(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_tree`.}
+\item{x}{A \code{tree_sitter_tree}.}
 }
 \value{
-A `tree_sitter_node`.
+A \code{tree_sitter_node}.
 }
 \description{
 Retrieve the root node of a tree

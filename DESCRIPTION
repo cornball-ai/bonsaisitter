@@ -1,23 +1,32 @@
 Package: bonsaisitter
 Type: Package
-Title: Tree-Sitter Bindings for R
-Version: 0.1.0.1
+Title: Bindings to the 'Tree-Sitter' Parsing Library
+Version: 0.1.1
+Date: 2026-09-07
 Authors@R: c(
     person("Troy", "Hernandez", role = c("aut", "cre"),
            email = "troy@cornball.ai",
            comment = c(ORCID = "0009-0005-4248-604X")),
     person("cornball.ai", role = "cph"),
-    person("Max", "Brunsfeld", role = "cph",
-           comment = "tree-sitter C library"),
-    person("Davis", "Vaughan", role = "cph",
-           comment = "treesitter package, whose API this mirrors"))
-Description: A runtime for the tree-sitter parsing library that mirrors the
-    'treesitter' package API, so it can serve as a drop-in replacement.
-    Parses source code into concrete syntax trees for fast, incremental
-    analysis. Grammars come from separate packages (such as 'treesitter.r'),
-    so the runtime itself carries zero hard dependencies.
+    person("Max", "Brunsfeld", role = c("ctb", "cph"),
+           comment = "tree-sitter C library, bundled under src/tree-sitter"),
+    person("International Business Machines Corporation", role = "cph",
+           comment = "ICU UTF-8 and UTF-16 headers, src/tree-sitter/lib/src/unicode"),
+    person("Unicode, Inc.", role = "cph",
+           comment = "ICU license, src/tree-sitter/lib/src/unicode/LICENSE"),
+    person("Mathias", "Panzenböck", role = "ctb",
+           comment = "src/tree-sitter/lib/src/portable/endian.h, public domain"))
+Description: A runtime for the 'Tree-sitter' parsing library
+    <https://tree-sitter.github.io/tree-sitter/> that mirrors the API of the
+    'treesitter' package, so it can serve as a drop-in replacement. Parses
+    source code into concrete syntax trees and updates them incrementally as
+    the source changes. Grammars are supplied by separate packages such as
+    'treesitter.r', so the runtime itself depends on nothing beyond base R.
 License: MIT + file LICENSE
+Copyright: cornball.ai, except the bundled tree-sitter sources under
+    src/tree-sitter, whose holders are listed in inst/COPYRIGHTS.
 URL: https://github.com/cornball-ai/bonsaisitter
 BugReports: https://github.com/cornball-ai/bonsaisitter/issues
+Encoding: UTF-8
 NeedsCompilation: yes
 Suggests: tinytest, treesitter, treesitter.r

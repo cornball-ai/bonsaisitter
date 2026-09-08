@@ -15,11 +15,19 @@ node_parse_state(x)
 node_next_parse_state(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_node`.}
+\item{x}{A \code{tree_sitter_node}.}
 }
 \value{
 A single double.
 }
 \description{
 Node symbols and parse states
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  node <- tree_root_node(text_parse("x <- 1", treesitter.r::language()))
+  node_symbol(node)
+  language_symbol_name(node_language(node), node_symbol(node))
+  node_parse_state(node)
+}
 }

@@ -15,15 +15,22 @@ point_column(x)
 is_point(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_point`.}
+\item{x}{A \code{tree_sitter_point}.}
 
 \item{row,column}{A 0-indexed row / column (single whole number).}
 }
 \value{
-`point()` a point; the accessors a double; `is_point()` a logical.
+\code{point()} a point; the accessors a double; \code{is_point()} a logical.
 }
 \description{
-- `point()` creates a tree-sitter point. Points are 0-indexed.
-- `point_row()` and `point_column()` access the row and column.
-- `is_point()` tests for a point.
+- \code{point()} creates a tree-sitter point. Points are 0-indexed.
+- \code{point_row()} and \code{point_column()} access the row and column.
+- \code{is_point()} tests for a point.
+}
+\examples{
+p <- point(2, 4)
+p
+point_row(p)
+point_column(p)
+is_point(p)
 }

@@ -9,11 +9,18 @@ node_start_point(x)
 node_end_point(x)
 }
 \arguments{
-\item{x}{A `tree_sitter_node`.}
+\item{x}{A \code{tree_sitter_node}.}
 }
 \value{
-A `tree_sitter_point`.
+A \code{tree_sitter_point}.
 }
 \description{
 A node's start / end point
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  node <- tree_root_node(text_parse("x <- 1\ny <- 2", treesitter.r::language()))
+  node_start_point(node)
+  node_end_point(node)
+}
 }

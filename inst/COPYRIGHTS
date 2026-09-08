@@ -1,0 +1,56 @@
+Copyright statements for bonsaisitter
+=====================================
+
+bonsaisitter itself is
+
+    Copyright (c) 2026 cornball.ai
+    MIT License (see LICENSE)
+
+It bundles the tree-sitter C library (https://github.com/tree-sitter/tree-sitter)
+under src/tree-sitter/: the lib/ subtree only, that is the runtime headers
+and sources, from a 0.26-series development snapshot between the v0.26.6
+and v0.26.7 tags (lib/src/query.c matches v0.26.6, lib/src/parser.c matches
+v0.26.7). Those sources compile into the package on every platform. The two
+local changes to them are listed in src/tree-sitter/PATCHES.md.
+
+tree-sitter is MIT-licensed; the full text is src/tree-sitter/LICENSE.
+
+    Copyright (c) 2018 Max Brunsfeld
+        The library as a whole. No file under src/tree-sitter/lib carries
+        an individual copyright header except the ones listed below.
+
+Three files under src/tree-sitter/lib/src/unicode/ are ICU headers that
+tree-sitter itself bundles (from ICU commit
+552b01f61127d30d6589aa4bf99468224979b661; see README.md and ICU_SHA in that
+directory), under the ICU license reproduced verbatim in
+src/tree-sitter/lib/src/unicode/LICENSE:
+
+    src/tree-sitter/lib/src/unicode/umachine.h
+    src/tree-sitter/lib/src/unicode/utf16.h
+    src/tree-sitter/lib/src/unicode/utf8.h
+        Copyright (C) 1999-2015, International Business Machines
+        Corporation and others. All Rights Reserved.
+        License & terms of use: http://www.unicode.org/copyright.html
+
+    src/tree-sitter/lib/src/unicode/LICENSE
+        Copyright (c) 1991-2019 Unicode, Inc. All rights reserved.
+        Distributed under the Terms of Use in
+        https://www.unicode.org/copyright.html.
+        The file is ICU's complete license text. Its later sections name
+        holders of ICU components that are not bundled here.
+
+    The other files in that directory (ptypes.h, urename.h, utf.h) are
+    one-line tree-sitter stubs under tree-sitter's LICENSE.
+
+One file is public domain:
+
+    src/tree-sitter/lib/src/portable/endian.h
+        Author: Mathias Panzenböck. Placed in the public domain by its
+        header, which also offers it under the BSD, MIT and Apache
+        licenses for jurisdictions without a public domain.
+
+src/tree-sitter/lib/src/wasm/wasm-stdlib.h and stdlib-symbols.txt are
+generated files that ship in the tree-sitter repository (a WebAssembly
+build of its standard-library shims) and fall under tree-sitter's LICENSE.
+They are compiled in only when TREE_SITTER_FEATURE_WASM is defined, which
+this package never does.

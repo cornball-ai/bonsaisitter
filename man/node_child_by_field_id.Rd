@@ -6,13 +6,21 @@
 node_child_by_field_id(x, id)
 }
 \arguments{
-\item{x}{A `tree_sitter_node`.}
+\item{x}{A \code{tree_sitter_node}.}
 
-\item{id}{A field id (see [language_field_id_for_name()]).}
+\item{id}{A field id (see \code{\link{language_field_id_for_name}}).}
 }
 \value{
-A `tree_sitter_node`, or `NULL`.
+A \code{tree_sitter_node}, or \code{NULL}.
 }
 \description{
 A child by field id
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  lang <- treesitter.r::language()
+  expr <- node_child(tree_root_node(text_parse("x <- 1", lang)), 1)
+  id <- language_field_id_for_name(lang, "lhs")
+  node_text(node_child_by_field_id(expr, id))
+}
 }

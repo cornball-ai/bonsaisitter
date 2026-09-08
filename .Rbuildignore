@@ -1,5 +1,6 @@
 ^CLAUDE\.md$
 ^LICENSE\.md$
+^cran-comments\.md$
 ^\.github$
 ^\.claude$
 ^tasks$

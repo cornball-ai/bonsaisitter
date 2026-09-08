@@ -9,7 +9,7 @@ language_state_count(x)
 language_next_state(x, state, symbol)
 }
 \arguments{
-\item{x}{A `tree_sitter_language`.}
+\item{x}{A \code{tree_sitter_language}.}
 
 \item{state}{A parse state id.}
 
@@ -20,4 +20,12 @@ A single double.
 }
 \description{
 Language parse states
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  lang <- treesitter.r::language()
+  language_state_count(lang)
+  node <- tree_root_node(text_parse("x <- 1", lang))
+  language_next_state(lang, node_parse_state(node), node_grammar_symbol(node))
+}
 }

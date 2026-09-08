@@ -9,7 +9,7 @@ query_start_byte_for_pattern(x, i)
 query_end_byte_for_pattern(x, i)
 }
 \arguments{
-\item{x}{A `tree_sitter_query`.}
+\item{x}{A \code{tree_sitter_query}.}
 
 \item{i}{A 1-indexed pattern position.}
 }
@@ -18,4 +18,10 @@ A single double (0-indexed byte).
 }
 \description{
 Query byte ranges per pattern (1-indexed pattern)
+}
+\examples{
+if (requireNamespace("treesitter.r", quietly = TRUE)) {
+  q <- query(treesitter.r::language(), "(call) @call (identifier) @id")
+  c(query_start_byte_for_pattern(q, 2), query_end_byte_for_pattern(q, 2))
+}
 }

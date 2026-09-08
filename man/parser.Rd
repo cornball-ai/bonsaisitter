@@ -6,15 +6,15 @@
 parser(language)
 }
 \arguments{
-\item{language}{A `tree_sitter_language`, e.g. from a grammar package like
-`treesitter.r::language()`.}
+\item{language}{A \code{tree_sitter_language}, e.g. from a grammar package like
+\code{treesitter.r::language()}.}
 }
 \value{
-A `tree_sitter_parser`.
+A \code{tree_sitter_parser}.
 }
 \description{
-`parser()` constructs a parser from a `tree_sitter_language`. Use
-[parser_parse()] to parse text with it.
+\code{parser()} constructs a parser from a \code{tree_sitter_language}. Use
+\code{\link{parser_parse}} to parse text with it.
 }
 \examples{
 if (requireNamespace("treesitter.r", quietly = TRUE)) {

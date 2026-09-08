@@ -11,10 +11,10 @@ new_query <- function(pointer, capture_names, source, language) {
 
 #' Compile a tree-sitter query
 #'
-#' @param language A `tree_sitter_language`.
+#' @param language A \code{tree_sitter_language}.
 #' @param source A single string of query source (tree-sitter S-expression
 #'   pattern syntax).
-#' @return A `tree_sitter_query`.
+#' @return A \code{tree_sitter_query}.
 #' @examples
 #' if (requireNamespace("treesitter.r", quietly = TRUE)) {
 #'   q <- query(treesitter.r::language(), "(call function: (identifier) @fn)")
@@ -31,10 +31,10 @@ query <- function(language, source) {
 
 #' Run a query and collect its captures
 #'
-#' @param x A `tree_sitter_query`.
-#' @param node A `tree_sitter_node` to search within.
-#' @return A list with `name` (character vector of capture names) and `node`
-#'   (list of `tree_sitter_node`s), one entry per capture in traversal order.
+#' @param x A \code{tree_sitter_query}.
+#' @param node A \code{tree_sitter_node} to search within.
+#' @return A list with \code{name} (character vector of capture names) and \code{node}
+#'   (list of \code{tree_sitter_node}s), one entry per capture in traversal order.
 #' @examples
 #' if (requireNamespace("treesitter.r", quietly = TRUE)) {
 #'   lang <- treesitter.r::language()
@@ -54,8 +54,13 @@ query_captures <- function(x, node) {
 
 #' Query counts
 #'
-#' @param x A `tree_sitter_query`.
+#' @param x A \code{tree_sitter_query}.
 #' @return A single double.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   q <- query(treesitter.r::language(), "(call function: (identifier) @fn)")
+#'   c(query_pattern_count(q), query_capture_count(q), query_string_count(q))
+#' }
 #' @rdname query-counts
 #' @export
 query_pattern_count <- function(x) {
@@ -77,10 +82,14 @@ query_string_count <- function(x) {
     as.double(.Call(c_ts_query_string_count, query_pointer0(x)))
 }
 
-#' Is `x` a query?
+#' Is \code{x} a query?
 #'
 #' @param x An object.
-#' @return `TRUE` or `FALSE`.
+#' @return \code{TRUE} or \code{FALSE}.
+#' @examples
+#' if (requireNamespace("treesitter.r", quietly = TRUE)) {
+#'   is_query(query(treesitter.r::language(), "(identifier) @id"))
+#' }
 #' @export
 is_query <- function(x) {
     inherits(x, "tree_sitter_query")
